@@ -5,7 +5,7 @@ Branches:
 2. mysql_jdbc - web part and server side based on JDBC, myself ORM and MySQL. 
 3. mysql_hibernate - web part and server side based on JDBC, JPA + Hibernate and MySQL.
 
-Plane new branches:
+Plan new branches:
 4. Concurrent version
 5. PostgreSQL
 6. MyBatis
