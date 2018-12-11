@@ -1,0 +1,14 @@
+1. Пишем под апач томкат. Под джетти отдельно приложение. Здесь будет только КРУД с секьюрити фильтрами и базой посгрес или MySql
+
+Сделано:
+1. GetIndexPage
+2. SignIn
+3. SignUp
+4. LogOut
+5. GetMainMenu
+6. GetAdminMenu
+7. SecurityFilter
+
+8. AddUserServlet - Create part
+9. DeleteUserServlet - Delete part
+10. UpdateUserServlet - Update part
