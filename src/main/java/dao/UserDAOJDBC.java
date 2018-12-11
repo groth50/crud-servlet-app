@@ -17,11 +17,11 @@ import java.util.List;
  *         Отправляет запрос к базе через Executor и обрабатывает результат посредством лямбда функций.
  *         Реализует команды DQL и DML. Является Object Relation Mapping.
  */
-public class UserDAOI implements UserDAO {
+public class UserDAOJDBC implements UserDAO {
     static final Logger LOGGER = LogManager.getLogger(UserDAO.class.getName());
     private Executor executor;
 
-    public UserDAOI(Connection connection) {
+    public UserDAOJDBC(Connection connection) {
         this.executor = new Executor(connection);
     }
 

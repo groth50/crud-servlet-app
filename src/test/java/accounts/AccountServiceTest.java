@@ -1,14 +1,11 @@
 package accounts;
 
 import database.DBException;
-import database.DBService;
 import org.mockito.Mockito;
 import utils.LongId;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.lang.reflect.Field;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;

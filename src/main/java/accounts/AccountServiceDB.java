@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class AccountServiceDB implements AccountService {
     private final DBService dbService;
-    private final Map<String, UserAccount> sessionIdToProfile;
+    private final Map<String, UserAccount> sessionIdToProfile; //todo: слабые ссылки и многопоточность
 
     public AccountServiceDB() {
         dbService = new DBService();
