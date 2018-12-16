@@ -2,7 +2,6 @@ package servlet;
 
 import accounts.AccountService;
 import accounts.UserAccount;
-import utils.LongId;
 
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
@@ -15,8 +14,8 @@ import org.junit.Before;
 import org.mockito.Mockito;
 
 public class ConfigServletTest {
-    public static final LongId<UserAccount> DEFAULT_LONG_ID = new LongId<>(1);
-    public static final String DEFAULT_STRING_ID = String.valueOf(DEFAULT_LONG_ID.getId());
+    public static final long DEFAULT_LONG_ID = 1;
+    public static final String DEFAULT_STRING_ID = String.valueOf(DEFAULT_LONG_ID);
     public static final String DEFAULT_LOGIN = "Test";
     public static final String UNREGISTERED_LOGIN = "Unregistered";
     public static final String DEFAULT_PASSWORD = "123";
@@ -60,11 +59,11 @@ public class ConfigServletTest {
         chain = null;
     }
 
-    private static UserAccount getNewUserAccount(LongId<UserAccount> id, String login, String password) {
+    private static UserAccount getNewUserAccount(long id, String login, String password) {
         return new UserAccount(id, login, password);
     }
 
-    private static UserAccount getNewAdminAccount(LongId<UserAccount> id, String login, String password) {
+    private static UserAccount getNewAdminAccount(long id, String login, String password) {
         return new UserAccount(id, login, password, UserAccount.Role.ADMIN);
     }
 }

@@ -34,11 +34,11 @@
             </thead>
             <c:forEach var="user" items="${users}">
                 <c:set var="classSucess" value=""/>
-                <c:if test ="${userId == user.longId.id}">
+                <c:if test ="${userId == user.id}">
                     <c:set var="classSucess" value="info"/>
                 </c:if>
                 <tr class="${classSucess}">
-                    <td><c:out value="${user.longId.id}" /></td>
+                    <td><c:out value="${user.id}" /></td>
                     <td><c:out value="${user.login}" /></td>
                     <td><c:out value="${user.role}" /></td>
                 </tr>

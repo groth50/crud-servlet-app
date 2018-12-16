@@ -38,18 +38,18 @@
                 </thead>
                 <c:forEach var="user" items="${users}">
                     <c:set var="classSucess" value=""/>
-                    <c:if test ="${userId == user.longId.id}">
+                    <c:if test ="${userId == user.id}">
                         <c:set var="classSucess" value="info"/>
                     </c:if>
                     <tr class="${classSucess}">
-                        <td><a href="/updateuser?id=${user.longId.id}"><c:out value="${user.longId.id}" /></a></td>
+                        <td><a href="/updateuser?id=${user.id}"><c:out value="${user.id}" /></a></td>
                         <td><c:out value="${user.login}" /></td>
                         <td><c:out value="${user.role}" /></td>
 
                         <td>
                             <a href="#" id="remove"
                                onclick="
-                               document.getElementById('userId').value = '${user.longId.id}';
+                               document.getElementById('userId').value = '${user.id}';
                                document.getElementById('userLogin').value = '${user.login}';
                                document.getElementById('userForm').submit();">
                                 <span class="glyphicon glyphicon-trash"/>

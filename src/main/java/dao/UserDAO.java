@@ -12,13 +12,9 @@ public interface UserDAO {
 
     Collection<UserAccount> getAllUsers() throws DBException;
 
-    int insertUser(String name, String password, String role) throws DBException;
+    long insertUser(String name, String password, String role) throws DBException;
 
-    int deleteUser(String id) throws DBException;
+    void deleteUser(String id) throws DBException;
 
-    int updateUser(UserAccount user) throws DBException;
-
-    int createTable() throws DBException;
-
-    int dropTable() throws DBException;
+    void updateUser(UserAccount user) throws DBException;
 }

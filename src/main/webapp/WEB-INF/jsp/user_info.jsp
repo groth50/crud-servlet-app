@@ -23,7 +23,7 @@
 <form action="${pageContext.request.contextPath}/logout" method="POST" class="form">
     <fieldset>
         <div class="form-group">
-            ID: <input type="text" name="id" value="<c:out value="${currentUser.longId.id}" />"/>
+            ID: <input type="text" name="id" value="<c:out value="${currentUser.id}" />"/>
         </div>
         <div class="form-group">
             Login: <input type="text" name="login" value="<c:out value="${currentUser.login}" />"/>

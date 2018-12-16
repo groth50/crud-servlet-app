@@ -1,29 +1,56 @@
 package accounts;
 
-import utils.LongId;
+import javax.persistence.*;
+import java.io.Serializable;
 
-public class UserAccount {
-    private final LongId<UserAccount> longId;
+@Entity
+@Table(name = "users")
+public class UserAccount implements Serializable {
+    private static final long serialVersionUID = -8706689714326132798L;
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "user_name", unique = true)
     private String login;
+    @Column(name = "user_password")
     private String password; //todo: убрать пасс из базы и перейти на хэш
+    @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
-    public UserAccount(LongId<UserAccount> longId, String login, String password) {
-        this.longId = longId;
+    public UserAccount() {
+    }
+
+    public UserAccount(String login, String password) {
         this.login = login;
         this.password = password;
         this.role = Role.USER;
     }
 
-    public UserAccount(LongId<UserAccount> longId, String login, String password, Role role) {
-        this.longId = longId;
+    public UserAccount(String login, String password, Role role) {
         this.login = login;
         this.password = password;
         this.role = role;
     }
 
-    public LongId<UserAccount> getLongId() {
-        return longId;
+    public UserAccount(long id, String login, String password) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.role = Role.USER;
+    }
+
+    public UserAccount(long id, String login, String password, Role role) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getLogin() {
@@ -48,6 +75,16 @@ public class UserAccount {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "UserAccount{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 
     public enum Role {

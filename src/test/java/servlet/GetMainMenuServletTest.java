@@ -1,8 +1,5 @@
 package servlet;
 
-import accounts.UserAccount;
-import utils.LongId;
-
 import java.io.IOException;
 import java.lang.reflect.Field;
 import javax.servlet.ServletException;
