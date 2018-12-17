@@ -12,7 +12,7 @@ public interface UserDAO {
 
     Collection<UserAccount> getAllUsers() throws DBException;
 
-    long insertUser(String name, String password, String role) throws DBException;
+    void insertUser(String name, String password, String role) throws DBException;
 
     void deleteUser(String id) throws DBException;
 
