@@ -3,37 +3,34 @@ package dao;
 import accounts.UserAccount;
 import database.DBException;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Collection;
 
 import database.Executor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.internal.SessionFactoryImpl;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 
 public class UserDAOI implements UserDAO {
     static final Logger LOGGER = LogManager.getLogger(UserDAOI.class.getName());
     private final Executor executor;
 
-    public UserDAOI(SessionFactory sessionFаctory) {
-        this.executor = new Executor(sessionFаctory);
-        printConnectInfo(sessionFаctory);
+    public UserDAOI(EntityManagerFactory entityManagerFactory) {
+        this.executor = new Executor(entityManagerFactory);
     }
 
     @Override
     public UserAccount getUserById(long id) throws DBException {
         UserAccount userAccount = null;
         try {
-            userAccount = (UserAccount) executor.doQuery(session -> {
-                return (UserAccount) session.get(UserAccount.class, id);
-            });
-        } catch (HibernateException e) {
+            userAccount = executor.doQuery(entityManager -> entityManager.find(UserAccount.class, id));
+        } catch (RuntimeException e) {
             LOGGER.error(e);
             throw new DBException(e);
         }
@@ -47,11 +44,17 @@ public class UserDAOI implements UserDAO {
     public UserAccount getUserByLogin(String name) throws DBException {
         UserAccount userAccount = null;
         try {
-            userAccount = (UserAccount) executor.doQuery(session -> {
-                Criteria criteria = session.createCriteria(UserAccount.class);
-                return (UserAccount) criteria.add(Restrictions.eq("login", name)).uniqueResult();
+            userAccount = (UserAccount) executor.doQuery(entityManager -> {
+                CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+                CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(UserAccount.class);
+                Root user = criteriaQuery.from(UserAccount.class);
+                criteriaQuery.where(criteriaBuilder.equal(user.get("login"), criteriaBuilder.parameter(String.class, "login")));
+                TypedQuery<UserAccount> query = entityManager.createQuery(criteriaQuery);
+                query.setParameter("login", name);
+                UserAccount account = query.getSingleResult();
+                return account;
             });
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             LOGGER.error(e);
             throw new DBException(e);
         }
@@ -62,11 +65,15 @@ public class UserDAOI implements UserDAO {
     public Collection<UserAccount> getAllUsers() throws DBException {
         Collection<UserAccount> allUsers = null;
         try {
-            allUsers = (Collection<UserAccount>) executor.doQuery(session -> {
-                Criteria criteria = session.createCriteria(UserAccount.class);
-                return (Collection<UserAccount>) criteria.add(Restrictions.isNotNull("login")).list();
+            allUsers = executor.doQuery(entityManager -> {
+                CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+                CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(UserAccount.class);
+                Root user = criteriaQuery.from(UserAccount.class);
+                TypedQuery<UserAccount> query = entityManager.createQuery(criteriaQuery);
+                Collection<UserAccount> userAccounts = query.getResultList();
+                return userAccounts;
             });
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             LOGGER.error(e);
             throw new DBException(e);
         }
@@ -77,30 +84,28 @@ public class UserDAOI implements UserDAO {
     }
 
     @Override
-    public long insertUser(String name, String password, String role) throws DBException {
-        long id = -1;
+    public void insertUser(String name, String password, String role) throws DBException {
         try {
-            id = executor.doTransaction(session -> {
-                long userId = (Long) session.save(new UserAccount(name, password, UserAccount.Role.valueOf(role)));
-                return userId;
+            executor.doTransaction(entityManager -> {
+                entityManager.persist(new UserAccount(name, password, UserAccount.Role.valueOf(role)));
+                return 0;
             });
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             LOGGER.error(e);
             throw new DBException(e);
         }
-        return id;
     }
 
     @Override
     public void deleteUser(String id) throws DBException {
         long longId = Long.parseLong(id);
         try {
-            executor.doTransaction(session -> {
-                UserAccount userAccount = (UserAccount) session.get(UserAccount.class, longId);
-                session.delete(userAccount);
+            executor.doTransaction(entityManager -> {
+                UserAccount userAccount = (UserAccount) entityManager.find(UserAccount.class, longId);
+                entityManager.remove(userAccount);
                 return 0;
             });
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             LOGGER.error(e);
             throw new DBException(e);
         }
@@ -109,26 +114,27 @@ public class UserDAOI implements UserDAO {
     @Override
     public void updateUser(UserAccount user) throws DBException {
         try {
-            executor.doTransaction(session -> {
-                session.update(user);
+            executor.doTransaction(entityManager -> {
+                entityManager.merge(user);
                 return 0;
             });
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             LOGGER.error(e);
             throw new DBException(e);
         }
     }
 
-        public void printConnectInfo(SessionFactory sessionFаctory) {
-        try {
-            SessionFactoryImpl sessionFactoryImpl = (SessionFactoryImpl) sessionFаctory;
-            Connection connection = sessionFactoryImpl.getConnectionProvider().getConnection();
-            System.out.println("DB name: " + connection.getMetaData().getDatabaseProductName());
-            System.out.println("DB version: " + connection.getMetaData().getDatabaseProductVersion());
-            System.out.println("Driver: " + connection.getMetaData().getDriverName());
-            System.out.println("Autocommit: " + connection.getAutoCommit());
-        } catch (SQLException e) {
-            LOGGER.error(e);
-        }
-    }
+    //todo: print info
+//        public void printConnectInfo(SessionFactory sessionFаctory) {
+//        try {
+//            SessionFactoryImpl sessionFactoryImpl = (SessionFactoryImpl) sessionFаctory;
+//            Connection connection = sessionFactoryImpl.getConnectionProvider().getConnection();
+//            System.out.println("DB name: " + connection.getMetaData().getDatabaseProductName());
+//            System.out.println("DB version: " + connection.getMetaData().getDatabaseProductVersion());
+//            System.out.println("Driver: " + connection.getMetaData().getDriverName());
+//            System.out.println("Autocommit: " + connection.getAutoCommit());
+//        } catch (SQLException e) {
+//            LOGGER.error(e);
+//        }
+//    }
 }
