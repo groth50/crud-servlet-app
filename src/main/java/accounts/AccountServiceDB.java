@@ -3,25 +3,24 @@ package accounts;
 import database.DBException;
 import database.DBService;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Класс для управления аккаунтами и их сессиями.
  */
 public class AccountServiceDB implements AccountService {
     private final DBService dbService;
-    private final Map<String, UserAccount> sessionIdToProfile; //todo: слабые ссылки и многопоточность
+    private final Map<String, UserAccount> sessionIdToProfile;
 
     public AccountServiceDB() {
         dbService = new DBService();
-        sessionIdToProfile = new HashMap<>();
+        sessionIdToProfile = Collections.synchronizedMap(new WeakHashMap<>());
+
     }
 
     public AccountServiceDB(DBService dbService) {
         this.dbService = dbService;
-        sessionIdToProfile = new HashMap<>();
+        sessionIdToProfile = Collections.synchronizedMap(new WeakHashMap<>());
     }
 
 
