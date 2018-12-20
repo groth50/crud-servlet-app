@@ -47,9 +47,7 @@ public class UpdateUserServlet extends HttpServlet {
         int idNum = 0;
         try {
              idNum = Integer.parseInt(id);
-        } catch (NumberFormatException ignore) {
-
-        }
+        } catch (NumberFormatException ignore) {}
         if (idNum <= 0) {
             request.setAttribute("errorMessage", "Incorrect id.");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

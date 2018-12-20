@@ -10,77 +10,92 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import java.util.Collection;
+
 
 
 public class DBService {
     static final Logger LOGGER = LogManager.getLogger(DBService.class.getName());
-    private static final String hibernate_show_sql = "true";
-    private static final String hibernate_hbm2ddl_auto = "validate";
+    private static final String PERSISTENCE_UNIT_NAME = "PERSISTENCE";
 
     private final UserDAO userDAO;
 
     public DBService() {
-        Configuration configuration = getMySqlConfiguration();
-        SessionFactory sessionFactory = createSessionFactory(configuration);
-        userDAO = new UserDAOI(sessionFactory);
+        userDAO = new UserDAOI(createEntityManagerFactory());
     }
 
-    private Configuration getMySqlConfiguration() {
-        Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(UserAccount.class);
-
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/db_example");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "1234");
-        configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
-        configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
-        return configuration;
-    }
-
-    public static void main(String[] args) throws DBException {
-        DBService service = new DBService();
-
-        System.out.println(service.getUserById(1));
-        System.out.println(service.getUserByLogin("admin"));
-
-        long id = service.addNewUser("lol", "1234", UserAccount.Role.USER);
-        System.out.println(id);
-        System.out.println(service.getUserById(id));
-
-        //System.out.println(service.getUserById(500));
-        //System.out.println(service.getUserByLogin("ololosh"));
-        //System.out.println(service.addNewUser("admin", "100500", UserAccount.Role.USER));
-    }
 
     public UserAccount getUserById(long id) throws DBException {
-        return userDAO.getUserById(id);
+        UserAccount userAccount = null;
+        try {
+            userAccount = userDAO.getUserById(id);
+        } catch (NoResultException e) {
+            LOGGER.error(e);
+        } catch (RuntimeException e) {
+            LOGGER.error(e);
+            throw new DBException("Sorry, we have trouble with server. Try again.", e);
+        }
+        return userAccount;
     }
 
     public UserAccount getUserByLogin(String name) throws DBException {
-        return userDAO.getUserByLogin(name);
+        UserAccount userAccount = null;
+        try {
+            userAccount = userDAO.getUserByLogin(name);
+        } catch (NoResultException e) {
+            LOGGER.error(e);
+        } catch (RuntimeException e) {
+            LOGGER.error(e);
+            throw new DBException("Sorry, we have trouble with server. Try again.", e);
+        }
+        return userAccount;
     }
 
-    public long addNewUser(String name, String password, UserAccount.Role role) throws DBException {
-        long id = userDAO.insertUser(name, password, role.toString());
-        if (id <= 0) {
-            throw new DBException("Can't insert user.");
+    public void addNewUser(String name, String password, UserAccount.Role role) throws DBException {
+        try {
+            userDAO.insertUser(name, password, role.toString());
+        } catch (RuntimeException e) {
+            LOGGER.error(e);
+            throw new DBException(e);
         }
-        return id;
     }
 
     public void deleteUser(String id) throws DBException {
-        userDAO.deleteUser(id);
+        try {
+            userDAO.deleteUser(id);
+        } catch (RuntimeException e) {
+            LOGGER.error(e);
+            throw new DBException(e);
+        }
     }
 
     public void updateUser(UserAccount user) throws DBException {
-        userDAO.updateUser(user);
+        try {
+            userDAO.updateUser(user);
+        } catch (RuntimeException e) {
+            LOGGER.error(e);
+            throw new DBException(e);
+        }
     }
 
     public Collection<UserAccount> getAllUsers() throws DBException {
-        return userDAO.getAllUsers();
+        Collection<UserAccount> allUsers = null;
+        try {
+            allUsers = userDAO.getAllUsers();
+        } catch (NoResultException e) {
+            LOGGER.error(e);
+            throw new DBException("Can't find user", e);
+        } catch (RuntimeException e) {
+            LOGGER.error(e);
+            throw new DBException("Sorry, we have trouble with server. Try again.", e);
+        }
+        if (allUsers == null || allUsers.isEmpty()) {
+            throw new DBException("Can't find user");
+        }
+        return allUsers;
     }
 
     private static SessionFactory createSessionFactory(Configuration configuration) {
@@ -88,5 +103,10 @@ public class DBService {
         builder.applySettings(configuration.getProperties());
         ServiceRegistry serviceRegistry = builder.build();
         return configuration.buildSessionFactory(serviceRegistry);
+    }
+
+    private static EntityManagerFactory createEntityManagerFactory() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        return entityManagerFactory;
     }
 }

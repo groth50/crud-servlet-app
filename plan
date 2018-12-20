@@ -21,60 +21,93 @@ MySQL part:
 5. Сделать 2 версии: напрямую запросами через JDBC и посредством JPA
 
 Заметки:
-1. Каждый должен заниматься своим делом - проектировать и создавать базу должны одни, а написанием пользовательского
-   софта должны заниматься другие, без прав на модификацию структуры базы. А по хорошему они не должны иметь даже доступа
-   к таблицам, а лишь к хранимым процедурам (и функциям).
-2. JPA шпаргалка https://habr.com/post/265061/
-3. Для обработки ResultSet и проверки его, есть ли хоть одна строка, соответствующая запросу
-    Если мы работает с только возвращенным ResultSet
-    Как объясняется в документации, это возвращает false, если курсор не находится перед первой записью,
-    или если нет строк в ResultSet.
-    if (!resultSet.isBeforeFirst() ) {
-        System.out.println("No data");
-    }
+1.  JPQL и JPA Criteria запросы - https://dou.ua/lenta/articles/jpa-fetch-types/
+                                 https://en.wikibooks.org/wiki/Java_Persistence/Criteria#CriteriaQuery
 
-    Или можно использовать
-    if (!resultSet.next() ) {
-        System.out.println("no data");
-    } else {
+2.  persistence.xml - расположен в каталоге META-INF. описывает блоки хранения.
+    Он представляет собой файл описания хранения с использованием Java Persistence API (JPA).
+    Он применяется для объявления следующих объектов.
 
-        do {
-         //statement(s)
-        } while (resultSet.next());
-    }
+        Управляемые классы хранения.
+        Например, к управляемым классам относятся классы, содержащие аннотации @Entity, @Embeddable и @MappedSuperclass.
+        Связь между объектом и отношением.
+        JPA предлагает несколько способов связывания классов java с таблицами в реляционной базе данных.
+        Информация о конфигурации администраторов объектов и классов фабрики администраторов объектов.
 
-4. Тесты:
-    юнит - модульное - методы и отдельные классы, без запуска приложения;
-    компонентные - интеграционные - отдельные части системы, как совокупность классов выполняет свою функцию, частичный запуск, тестовая БД;
-    системные - тестируют приложение целиком
-    http://qala.io/blog/test-pyramid.html
-5. Тесты БД сервиса:
-    принято ли в коммерческих проектах делать юнит-тесты для DAO?
-    Нет, не принято. Может и есть какие возможные случаи, но в общем это редкость.Ну и многие такие тесты все равно
-    называют модульными. Да, это не совсем так, но это все равно самый низкий уровень тестов.
+    Для корректной работы
 
-    Мокают сам DAO, никто в здравом уме не мокает Connection/DataSource и т.д.
-    поскольку поддерживать такие тесты выходит слишком дорого - проще написать
-    простенький интеграционный тест, который использует реальную базу данных.
+pom.xml
 
-    если ты все замокаешь, то тестировать останется нечего :) Тебе нужно использовать интеграцию Spring'a и JUnit,
-    она позволяет инжектить бины прям в тесты. Так ты получишь ссылку на свою реализацию DAO.
-    Можешь подсмотреть как это делается в JCommune.
-    https://github.com/jtalks-org/jcommune/blob/4d11c237f11d0ca26e7e8b9e1183f28265360ac0/jcommune-model/src/test/java/org/jtalks/jcommune/model/dao/hibernate/UserHibernateDaoTest.java
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-entitymanager</artifactId>
+    <version>4.3.10.Final</version>
+</dependency>
 
-    На основной базе данных не надо тестировать - может плохо закончиться. Создайте отдельный профиль для
-    тестирования с настройками подключения к тестовой БД в конфигурации Spring.
-    Это нормальная практика на крупных проектах тестировать через in-memory DB (базы данных в оперативной памяти)
-    Или дефолтовая база данных H2. Дефолтовая, потому что она используется только на этапе разработки приложения,
-    пока еще мы не определились с конкретной базой данных. Это делается для того, чтобы не приходилось настраивать
-    полный энвайронмент для запуска приложения, который к тому же может поменяться.
-6. Тестирование врапперов?
-    Бесполезно!
-7. Тестирование с dbUnit
-    https://devcolibri.com/%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B1%D0%B4-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%88%D1%8C%D1%8E-dbunit/
-8. Чтобы замокать void метод, нужно применить конструкцию:
-    Mockito.doThrow(new Exception()).when(instance).methodName();
-    на моем примере
-    Mockito.doThrow(new DBException("addNewUser")).when(accountService).addNewUser(UNREGISTERED_LOGIN, UNREGISTERED_PASSWORD);
-9. Список статус кодов HTTP при ошибке на сервере
-    https://semantica.in/blog/chto-takoe-oshibka-servera.html
+persistence.xml
+
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="PERSISTENCE">
+        <description> Hibernate JPA Configuration Example</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/db_example" />
+            <property name="javax.persistence.jdbc.user" value="root" />
+            <property name="javax.persistence.jdbc.password" value="1234" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
+        </properties>
+
+    </persistence-unit>
+</persistence>
+
+
+3.  ConcurrentHashMap со слабыми ключами
+    Я думаю, что Google Guava Collections может дать такую ​​вещь, но могу ли я получить ее из стандартной библиотеки?
+    Краткий ответ на этот вопрос - нет. Java SE не реализует эту конкретную комбинацию.
+    Вы можете создать экземпляр java.util.concurrent.ConcurrentHashMap с ключами WeakReference и проделать
+    дополнительную работу по реализации удаления записей карты для неработающих ссылок,
+    но это не даст вам семантику хеширования идентификаторов.
+
+    Вы можете создать экземпляр java.util.IdentityHashMap с ключами WeakReference и выполнить дополнительную работу
+    по удалению записей карты для неработающих ссылок, но это не даст вам одновременного поведения.
+    Использование java.util.WeakHashMap не даст вам ни параллелизма, ни хеширования идентификаторов.
+    Вы можете (теоретически) обернуть ключевой класс чем-то, что отвергает естественные методы equals и hashcode.
+    Но это, скорее всего, будет непригодным для использования.
+    Я не думаю, что было бы возможно сделать это путем переопределения методов в ConcurrentHashMap или IdentityHashMap.
+    Возможно, единственно возможный вариант - изменить классы ключей equals и методы hashcode чтобы они основывались
+    на идентичности. Но это не сработает для «встроенных» типов ключей (особенно final ) или для случаев, когда
+    вам нужен основанный на значении equals / hashcode в других частях приложения.
+
+    Guava - new MapMaker().weakKeys().makeMap()
+    Или Collections.synchronizedMap(weakHashMap)
+    https://translate.googleusercontent.com/translate_c?depth=2&hl=ru&rurl=translate.google.com&sl=en&sp=nmt4&tl=ru&u=https://stackoverflow.com/questions/15456742/concurrenthashmap-with-weak-keys-and-identity-hash&xid=17259,15700022,15700124,15700149,15700186,15700190,15700201,15700237,15700242,15700248&usg=ALkJrhi2WEEX57q8F3TvRd6NbADrKZIt_Q
+
+4.  И в чем разница между Session в JPA и в Hibernate?
+
+    Существуют т.н. Container Managed Transactions (CMT), т.е., транзакции, управляемые контейнером.
+    Контейнер - это окружение, в котором работает ваше приложение, например - сервер приложений.
+    При использовании CMT ваш софт не управляет началом/завершением транзакций,
+    вместо этого контейнер сам решает когда начинать транзакции, и когда их завершать.
+    Таким образом, в исходном коде у вас нет строк transaction.begin()/transaction.commit().
+    При работе с CMT обычно используется EntityManager. Обычно, EntityManager передаётся в ваше
+    приложение контейнером с использованием Dependency Injection (DI).
+    Существуют Bean Managed Transactions (BMT). Представляют собой то же самое, что и CMT,
+    но с одним отличием - вы в коде явно управляете транзакциями, а не доверяете это контейнеру.
+    Здесь также применяются EntityManager и DI.
+    Существует еще один подход - вы не используете DI, вместо этого в вашем приложении реализован код,
+    самостоятельно осуществляющий доступ к источнику данных. В таких приложениях обычно работа
+    осуществляется через Session.
+    Я описал общий случай, нередко бывают и отличные от него - частные случаи. Например, вам требуется получить
+    доступ к специфическим функциям Session в приложении, использующем CMT. Бывают также случаи, когда DI не работает:
+    обычно это бывает, когда вам требуется получить доступ к источнику данных из потока,
+    созданного не контейнером, а вашим приложением.
+    Возможности, доступные из Session и из EntityManager - одинаковы на 99%.
+    Решение, что использовать - скорее архитектурное, чем функциональное.

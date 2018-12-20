@@ -2,16 +2,17 @@ package accounts;
 
 import database.DBException;
 import database.DBService;
-
 import java.util.*;
 
 /**
  * Класс для управления аккаунтами и их сессиями.
+ * @autor Alex
  */
 public class AccountServiceDB implements AccountService {
     private final DBService dbService;
     private final Map<String, UserAccount> sessionIdToProfile;
 
+    // конструктор для тестов
     public AccountServiceDB() {
         dbService = new DBService();
         sessionIdToProfile = Collections.synchronizedMap(new WeakHashMap<>());

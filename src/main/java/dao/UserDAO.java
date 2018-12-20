@@ -1,20 +1,19 @@
 package dao;
 
 import accounts.UserAccount;
-import database.DBException;
 
 import java.util.Collection;
 
 public interface UserDAO {
-    UserAccount getUserById(long id) throws DBException;
+    UserAccount getUserById(long id);
 
-    UserAccount getUserByLogin(String name) throws DBException;
+    UserAccount getUserByLogin(String name);
 
-    Collection<UserAccount> getAllUsers() throws DBException;
+    Collection<UserAccount> getAllUsers();
 
-    void insertUser(String name, String password, String role) throws DBException;
+    void insertUser(String name, String password, String role);
 
-    void deleteUser(String id) throws DBException;
+    void deleteUser(String id);
 
-    void updateUser(UserAccount user) throws DBException;
+    void updateUser(UserAccount user);
 }

@@ -4,8 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 
 /**
  *         Прослойка между DAO и самой базой. Управляет циклом жизни Statement из JDBC.
@@ -14,64 +17,47 @@ import org.hibernate.Transaction;
  */
 public class Executor {
     static final Logger LOGGER = LogManager.getLogger(Executor.class.getName());
-    private final SessionFactory sessionFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
-    public Executor(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public Executor(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 
-    public <T> T doTransaction(ExecuteCallable<T> callable) {
-        T result = null;
-        Session session = null;
-        Transaction transaction = null;
+    public <T> void doTransaction(ExecuteCallable<T> callable) {
+        EntityManager entityManager = null;
+        EntityTransaction transaction = null;
         try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            result = callable.execute(session);
+            entityManager = entityManagerFactory.createEntityManager();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            callable.execute(entityManager);
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (RuntimeException e) {
             LOGGER.error(e);
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             throw e;
         } finally {
-            if (session != null) {
-                session.close();
+            if (entityManager != null) {
+                entityManager.close();
             }
         }
-        return result;
     }
 
-//    public <T, S> T doQuery(Class<T> clazz, S param, ExecuteCallable<T> callable) throws HibernateException {
-//        T result = null;
-//        Session session = null;
-//        try {
-//            session = sessionFactory.openSession();
-//            result = callable.execute(session);
-//        } catch (HibernateException e) {
-//            LOGGER.error(e);
-//            throw e;
-//        } finally {
-//            if (session != null) {
-//                session.close();
-//            }
-//        }
-//        return result;
-//    }
     //через замыкание
-    public <T> T doQuery(ExecuteCallable<T> callable) throws HibernateException {
+    public <T> T doQuery(ExecuteCallable<T> callable) {
         T result = null;
-        Session session = null;
+        EntityManager entityManager = null;
         try {
-            session = sessionFactory.openSession();
-            result = callable.execute(session);
-        } catch (HibernateException e) {
+            entityManager = entityManagerFactory.createEntityManager();
+            result = callable.execute(entityManager);
+        } catch (RuntimeException e) {
             LOGGER.error(e);
             throw e;
         } finally {
-            if (session != null) {
-                session.close();
+            if (entityManager != null) {
+                entityManager.close();
             }
         }
         return result;

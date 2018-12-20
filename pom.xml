@@ -83,6 +83,12 @@
       <version>${org.hibernate.hibernate-core.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>${org.hibernate.hibernate-core.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>

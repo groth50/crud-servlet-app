@@ -1,19 +1,15 @@
 package dao;
 
 import accounts.UserAccount;
-
-import java.util.Collection;
-
 import database.Executor;
+import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
 
 public class UserDAOI implements UserDAO {
     static final Logger LOGGER = LogManager.getLogger(UserDAOI.class.getName());
@@ -32,10 +28,10 @@ public class UserDAOI implements UserDAO {
     @Override
     public UserAccount getUserByLogin(String name) {
         UserAccount userAccount = null;
-        userAccount = (UserAccount) executor.doQuery(entityManager -> {
+        userAccount = executor.doQuery(entityManager -> {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(UserAccount.class);
-            Root user = criteriaQuery.from(UserAccount.class);
+            Root<UserAccount> user = criteriaQuery.from(UserAccount.class);
             criteriaQuery.where(criteriaBuilder.equal(user.get("login"), criteriaBuilder.parameter(String.class, "login")));
             TypedQuery<UserAccount> query = entityManager.createQuery(criteriaQuery);
             query.setParameter("login", name);
@@ -51,7 +47,7 @@ public class UserDAOI implements UserDAO {
         allUsers = executor.doQuery(entityManager -> {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(UserAccount.class);
-            Root user = criteriaQuery.from(UserAccount.class);
+            Root<UserAccount> user = criteriaQuery.from(UserAccount.class);
             TypedQuery<UserAccount> query = entityManager.createQuery(criteriaQuery);
             Collection<UserAccount> userAccounts = query.getResultList();
             return userAccounts;

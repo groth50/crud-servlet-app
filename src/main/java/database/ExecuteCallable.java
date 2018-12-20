@@ -1,8 +1,8 @@
 package database;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
+import javax.persistence.EntityManager;
 
+//todo: разделить на два? Один для транзакций, другой чисто для запросов?
 public interface ExecuteCallable<T> {
-    T execute(Session session) throws HibernateException;
+    T execute(EntityManager entityManager);
 }

@@ -5,7 +5,7 @@ import database.DBException;
 import java.util.Collection;
 
 /**
- * Интерфейс для взаимодействия с аккаунтами пользователей и хранением их сессий
+ * Interface for managing user accounts and their sessions.
  */
 public interface AccountService {
 
