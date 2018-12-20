@@ -4,25 +4,31 @@ import accounts.AccountService;
 import accounts.FactoryAccountService;
 import accounts.UserAccount;
 import database.DBException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import utils.PageMessageUtil;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
- * Created by Alex on 28.04.2018.
+ * Servlet for create new account.
+ * @autor Alex
  */
 @WebServlet(name = "SignUp", urlPatterns = "/signup")
 public class SignUpServlet extends HttpServlet {
     static final Logger LOGGER = LogManager.getLogger(SignUpServlet.class.getName());
+
+    /** Path for SignUp page */
     public static final String PATH = "./WEB-INF/jsp/sign_up.jsp";
+
+    /** Servlet path */
     public static final String URL = "/signup";
+
+    /** Managing user accounts and their sessions */
     private AccountService accountService;
 
     @Override
@@ -68,7 +74,7 @@ public class SignUpServlet extends HttpServlet {
         } catch (DBException e) {
             LOGGER.error(e.toString());
             response.setContentType("text/html;charset=utf-8"); //todo: сделать фильтр на кодировку
-            request.setAttribute("errorMessage", "Sorry, we have problems with server. Try again.");
+            request.setAttribute("errorMessage", e.getMessage());
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             request.getRequestDispatcher(PATH).forward(request, response);
             return;
