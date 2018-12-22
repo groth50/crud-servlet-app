@@ -16,7 +16,7 @@
     </title>
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/_menu.jsp"></jsp:include>
+<jsp:include page="/jsp/_menu.jsp"></jsp:include>
 <div>
     <h3>Your profile</h3>
 </div>
@@ -39,6 +39,6 @@
         </div>
     </fieldset>
 </form>
-<jsp:include page="/WEB-INF/jsp/_message_box.jsp"></jsp:include>
+<jsp:include page="/jsp/_message_box.jsp"></jsp:include>
 </body>
 </html>

@@ -33,7 +33,7 @@
     or <a href="${pageContext.request.contextPath}/signup">register</a> for an account
 </div>
 
-<jsp:include page="/WEB-INF/jsp/_message_box.jsp"></jsp:include>
+<jsp:include page="/jsp/_message_box.jsp"></jsp:include>
 
 </body>
 </html>

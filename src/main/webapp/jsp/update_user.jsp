@@ -14,8 +14,8 @@
     <title>Update user</title>
 </head>
 <body>
-<jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/_menu.jsp"></jsp:include>
-<jsp:include page="${pageContext.request.contextPath}/WEB-INF/jsp/_current_user.jsp"></jsp:include>
+<jsp:include page="/jsp/_menu.jsp"></jsp:include>
+<jsp:include page="/jsp/_current_user.jsp"></jsp:include>
 
 <form action="${pageContext.request.contextPath}/updateuser" method="POST" class="form">
     <fieldset>
@@ -48,6 +48,6 @@
         </div>
     </fieldset>
 </form>
-<jsp:include page="/WEB-INF/jsp/_message_box.jsp"></jsp:include>
+<jsp:include page="/jsp/_message_box.jsp"></jsp:include>
 </body>
 </html>

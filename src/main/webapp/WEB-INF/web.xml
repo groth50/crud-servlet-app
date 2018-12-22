@@ -14,8 +14,6 @@
             <web-resource-name>Include files</web-resource-name>
             <description>No direct access to include files.</description>
             <url-pattern>/jsp/*</url-pattern>
-            <http-method>POST</http-method>
-            <http-method>GET</http-method>
         </web-resource-collection>
         <auth-constraint>
             <description>No direct browser access to include files.</description>
