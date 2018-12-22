@@ -71,7 +71,7 @@ public class SecurityFilter implements Filter {
             response.setContentType("text/html;charset=utf-8");
             request.setAttribute("errorMessage", "Access denied");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            request.getRequestDispatcher("./WEB-INF/jsp/_message_box.jsp").forward(request, response);
+            request.getRequestDispatcher("./jsp/_message_box.jsp").forward(request, response);
         }
     }
 }
