@@ -20,7 +20,7 @@ import java.util.Collection;
 public class GetAdminMenuServlet extends HttpServlet {
     private AccountService accountService;
     static final Logger LOGGER = LogManager.getLogger(GetAdminMenuServlet.class.getName());
-    public static final String PATH = "./WEB-INF/jsp/admin_menu.jsp";
+    public static final String PATH = "./jsp/admin_menu.jsp";
     public static final String URL = "/adminmenu";
 
     @Override

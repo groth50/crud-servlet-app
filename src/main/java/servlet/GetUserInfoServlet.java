@@ -18,7 +18,7 @@ import java.io.IOException;
 public class GetUserInfoServlet extends HttpServlet {
     private AccountService accountService;
     static final Logger LOGGER = LogManager.getLogger(GetUserInfoServlet.class.getName());
-    public static final String PATH = "./WEB-INF/jsp/user_info.jsp";
+    public static final String PATH = "./jsp/user_info.jsp";
     public static final String URL = "/user_info";
 
     @Override

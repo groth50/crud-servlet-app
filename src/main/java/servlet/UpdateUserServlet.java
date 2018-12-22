@@ -18,7 +18,7 @@ import java.io.IOException;
 @WebServlet(name = "UpdateUser", urlPatterns = "/updateuser")
 public class UpdateUserServlet extends HttpServlet {
     static final Logger LOGGER = LogManager.getLogger(UpdateUserServlet.class.getName());
-    public static final String PATH = "./WEB-INF/jsp/update_user.jsp";
+    public static final String PATH = "./jsp/update_user.jsp";
     public static final String URL = "/updateuser";
 
     private AccountService accountService;

@@ -19,7 +19,7 @@ import utils.PageMessageUtil;
 public class SignInServlet extends HttpServlet {
     private AccountService accountService;
     static final Logger LOGGER = LogManager.getLogger(SignInServlet.class.getName());
-    public static final String PATH = "./WEB-INF/jsp/sign_in.jsp";
+    public static final String PATH = "./jsp/sign_in.jsp";
     public static final String URL = "/signin";
 
     @Override

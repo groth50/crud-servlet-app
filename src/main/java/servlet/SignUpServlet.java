@@ -23,7 +23,7 @@ public class SignUpServlet extends HttpServlet {
     static final Logger LOGGER = LogManager.getLogger(SignUpServlet.class.getName());
 
     /** Path for SignUp page */
-    public static final String PATH = "./WEB-INF/jsp/sign_up.jsp";
+    public static final String PATH = "./jsp/sign_up.jsp";
 
     /** Servlet path */
     public static final String URL = "/signup";

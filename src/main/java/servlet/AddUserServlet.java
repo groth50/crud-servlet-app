@@ -19,7 +19,7 @@ import java.io.IOException;
 public class AddUserServlet extends HttpServlet {
     private AccountService accountService;
     static final Logger LOGGER = LogManager.getLogger(AddUserServlet.class.getName());
-    public static final String PATH = "./WEB-INF/jsp/add_user.jsp";
+    public static final String PATH = "./jsp/add_user.jsp";
     public static final String URL = "/adduser";
 
     @Override
