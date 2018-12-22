@@ -152,7 +152,7 @@ public class SecurityFilterTest extends ConfigServletTest {
         when(session.getId()).thenReturn(DEFAULT_SESSION_ID);
         when(accountService.getUserBySessionId(DEFAULT_SESSION_ID)).thenReturn(DEFAULT_USER);
         when(request.getServletPath()).thenReturn(servletPath);
-        when(request.getRequestDispatcher("./WEB-INF/jsp/_message_box.jsp")).thenReturn(dispatcher);
+        when(request.getRequestDispatcher("./jsp/_message_box.jsp")).thenReturn(dispatcher);
 
         filter.doFilter(request, response, chain);
 
