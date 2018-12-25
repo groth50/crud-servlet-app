@@ -7,7 +7,7 @@ import java.util.Collection;
 public interface UserDAO {
     UserAccount getUserById(long id);
 
-    UserAccount getUserByLogin(String name);
+    UserAccount getUserByLogin(String login);
 
     Collection<UserAccount> getAllUsers();
 

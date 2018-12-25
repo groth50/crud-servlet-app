@@ -26,7 +26,7 @@ public class UserDAOI implements UserDAO {
     }
 
     @Override
-    public UserAccount getUserByLogin(String name) {
+    public UserAccount getUserByLogin(String login) {
         UserAccount userAccount = null;
         userAccount = executor.doQuery(entityManager -> {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -34,7 +34,7 @@ public class UserDAOI implements UserDAO {
             Root<UserAccount> user = criteriaQuery.from(UserAccount.class);
             criteriaQuery.where(criteriaBuilder.equal(user.get("login"), criteriaBuilder.parameter(String.class, "login")));
             TypedQuery<UserAccount> query = entityManager.createQuery(criteriaQuery);
-            query.setParameter("login", name);
+            query.setParameter("login", login);
             UserAccount account = query.getSingleResult();
             return account;
         });
