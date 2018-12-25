@@ -6,6 +6,7 @@ import java.util.Collection;
 
 /**
  * Interface for managing user accounts and their sessions.
+ * @autor Alex
  */
 public interface AccountService {
 
