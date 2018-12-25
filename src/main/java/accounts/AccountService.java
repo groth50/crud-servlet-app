@@ -1,7 +1,6 @@
 package accounts;
 
 import database.DBException;
-
 import java.util.Collection;
 
 /**
