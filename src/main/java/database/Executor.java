@@ -2,18 +2,18 @@ package database;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
 /**
- *         Прослойка между DAO и самой базой. Управляет циклом жизни Statement из JDBC.
- *         Получает готовый запрос и перенаправляет его в Statement. А так же принимает
- *         функцию для обработки результата.
+ * An object that executes {@link ExecuteCallable} database queries. This
+ * class provides a way of decoupling queries submission from the
+ * mechanics of how each queries will be run, including details of open and close
+ * resources, way to database connect, etc. An Executor is normally used lambdas
+ * from Java 1.8
+ *
+ * @autor  Alex
  */
 public class Executor {
     static final Logger LOGGER = LogManager.getLogger(Executor.class.getName());
