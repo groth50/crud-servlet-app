@@ -3,31 +3,50 @@ package database;
 import accounts.UserAccount;
 import dao.UserDAO;
 import dao.UserDAOI;
+import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import java.util.Collection;
 
-
-
+/**
+ * The class is used to work with the database.
+ * Provide initialization and configuration application
+ * for working with a database and exception handling.
+ *
+ * @autor  Alex
+ */
 public class DBService {
     static final Logger LOGGER = LogManager.getLogger(DBService.class.getName());
+
+    /** Default named persistence unit */
     private static final String PERSISTENCE_UNIT_NAME = "PERSISTENCE";
 
+    /** Default error message */
+    private static final String DEFAULT_MESSAGE = "Sorry, we have trouble with server. Try again.";
+
+    /** Data access object for users tables */
     private final UserDAO userDAO;
 
+    /**
+     * Constructs a new DBService and initializes
+     * an {@link UserDAO} using {@link EntityManagerFactory}
+     * from {@link DBService#createEntityManagerFactory}
+     */
     public DBService() {
         userDAO = new UserDAOI(createEntityManagerFactory());
     }
 
-
+    /**
+     * Return {@link UserAccount} entity by ID from database
+     *
+     * @param id {@link UserAccount#id} is user ID in application
+     *
+     * @return UserAccount entity from database
+     *
+     * @throws DBException if the query for database fails
+     */
     public UserAccount getUserById(long id) throws DBException {
         UserAccount userAccount = null;
         try {
@@ -36,51 +55,101 @@ public class DBService {
             LOGGER.error(e);
         } catch (RuntimeException e) {
             LOGGER.error(e);
-            throw new DBException("Sorry, we have trouble with server. Try again.", e);
+            throw new DBException(DEFAULT_MESSAGE, e);
         }
         return userAccount;
     }
 
-    public UserAccount getUserByLogin(String name) throws DBException {
+    /**
+     * Return {@link UserAccount} entity by login from database
+     *
+     * @param login {@link UserAccount#login}
+     * is user login in application
+     *
+     * @return {@link UserAccount} entity from database
+     *
+     * @throws DBException if the query for database fails
+     */
+    public UserAccount getUserByLogin(String login) throws DBException {
         UserAccount userAccount = null;
         try {
-            userAccount = userDAO.getUserByLogin(name);
+            userAccount = userDAO.getUserByLogin(login);
         } catch (NoResultException e) {
             LOGGER.error(e);
         } catch (RuntimeException e) {
             LOGGER.error(e);
-            throw new DBException("Sorry, we have trouble with server. Try again.", e);
+            throw new DBException(DEFAULT_MESSAGE, e);
         }
         return userAccount;
     }
 
-    public void addNewUser(String name, String password, UserAccount.Role role) throws DBException {
+    /**
+     * Add new {@link UserAccount} in database
+     *
+     * @param login {@link UserAccount#login}
+     * is user login in application
+     *
+     * @param password {@link UserAccount#password}
+     * is user password in application
+     *
+     * @param role {@link UserAccount#role}
+     * is user role in application
+     *
+     * @throws DBException if the query for database fails
+     */
+    public void addNewUser(String login, String password, UserAccount.Role role) throws DBException {
         try {
-            userDAO.insertUser(name, password, role.toString());
+            userDAO.insertUser(login, password, role.toString());
         } catch (RuntimeException e) {
             LOGGER.error(e);
-            throw new DBException(e);
+            throw new DBException(DEFAULT_MESSAGE, e);
         }
     }
 
+    /**
+     * Delete {@link UserAccount} from database by ID
+     *
+     * @param id {@link UserAccount#id}
+     * is user ID in application to be removed
+     *
+     * @throws DBException if the query for database fails
+     */
     public void deleteUser(String id) throws DBException {
         try {
             userDAO.deleteUser(id);
         } catch (RuntimeException e) {
             LOGGER.error(e);
-            throw new DBException(e);
+            throw new DBException(DEFAULT_MESSAGE, e);
         }
     }
 
+    /**
+     * Update {@link UserAccount} in database in ORM style,
+     * user is updated UserAccount
+     *
+     * @param user updateable UserAccount
+     *
+     * @throws DBException if the query for database fails
+     */
     public void updateUser(UserAccount user) throws DBException {
         try {
             userDAO.updateUser(user);
         } catch (RuntimeException e) {
             LOGGER.error(e);
-            throw new DBException(e);
+            throw new DBException(DEFAULT_MESSAGE, e);
         }
     }
 
+    /**
+     *
+     * Returns a {@link Collection} contains all
+     * {@link UserAccount} entities from database
+     *
+     * @return Collection contains all UserAccount
+     * entities from database
+     *
+     * @throws DBException if the query for database fails
+     */
     public Collection<UserAccount> getAllUsers() throws DBException {
         Collection<UserAccount> allUsers = null;
         try {
@@ -90,7 +159,7 @@ public class DBService {
             throw new DBException("Can't find user", e);
         } catch (RuntimeException e) {
             LOGGER.error(e);
-            throw new DBException("Sorry, we have trouble with server. Try again.", e);
+            throw new DBException(DEFAULT_MESSAGE, e);
         }
         if (allUsers == null || allUsers.isEmpty()) {
             throw new DBException("Can't find user");
@@ -98,13 +167,15 @@ public class DBService {
         return allUsers;
     }
 
-    private static SessionFactory createSessionFactory(Configuration configuration) {
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
-        builder.applySettings(configuration.getProperties());
-        ServiceRegistry serviceRegistry = builder.build();
-        return configuration.buildSessionFactory(serviceRegistry);
-    }
-
+    /**
+     * Create and return an {@link EntityManagerFactory}
+     * for the default named persistence unit in
+     * {@link DBService#PERSISTENCE_UNIT_NAME} constant.
+     *
+     * @return The factory that creates EntityManagers
+     * configured according to the
+     * DBService#PERSISTENCE_UNIT_NAME constant.
+     */
     private static EntityManagerFactory createEntityManagerFactory() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         return entityManagerFactory;
