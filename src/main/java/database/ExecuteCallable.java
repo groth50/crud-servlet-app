@@ -18,5 +18,5 @@ public interface ExecuteCallable<T> {
      *
      * @return T type of result query
      */
-    T execute(EntityManager entityManager) throws Exception;
+    T execute(EntityManager entityManager);
 }
