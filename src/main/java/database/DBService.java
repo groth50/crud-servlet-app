@@ -18,6 +18,8 @@ import javax.persistence.Persistence;
  * @autor  Alex
  */
 public class DBService {
+
+    /** Standard logger */
     static final Logger LOGGER = LogManager.getLogger(DBService.class.getName());
 
     /** Default named persistence unit */
