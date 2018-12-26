@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * An object that executes {@link ExecuteCallable} database queries. This
+ * Executes {@link ExecuteCallable} database queries. This
  * class provides a way of decoupling queries submission from the
  * mechanics of how each queries will be run, including details of open and close
  * resources, way to database connect, etc.
