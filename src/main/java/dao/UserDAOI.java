@@ -35,8 +35,7 @@ public class UserDAOI implements UserDAO {
             criteriaQuery.where(criteriaBuilder.equal(user.get("login"), criteriaBuilder.parameter(String.class, "login")));
             TypedQuery<UserAccount> query = entityManager.createQuery(criteriaQuery);
             query.setParameter("login", login);
-            UserAccount account = query.getSingleResult();
-            return account;
+            return query.getSingleResult();
         });
         return userAccount;
     }
@@ -49,8 +48,7 @@ public class UserDAOI implements UserDAO {
             CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(UserAccount.class);
             Root<UserAccount> user = criteriaQuery.from(UserAccount.class);
             TypedQuery<UserAccount> query = entityManager.createQuery(criteriaQuery);
-            Collection<UserAccount> userAccounts = query.getResultList();
-            return userAccounts;
+            return query.getResultList();
         });
         return allUsers;
     }
