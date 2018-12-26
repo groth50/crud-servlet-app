@@ -1,28 +1,39 @@
 package dao;
 
 import accounts.UserAccount;
+import database.ExecuteCallable;
 import database.Executor;
 import java.util.Collection;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+/**
+ * Class that provides data access for users table.
+ * Is normally used lambdas from Java 1.8 for callback
+ * with {@link Executor} and {@link ExecuteCallable}
+ */
 public class UserDAOI implements UserDAO {
-    static final Logger LOGGER = LogManager.getLogger(UserDAOI.class.getName());
+
+    /** An object that executes {@link ExecuteCallable} database queries. */
     private final Executor executor;
 
+    /**
+     * Constructs a new <code>UserDAOI</code> and initializes
+     * an {@link Executor} using {@link EntityManagerFactory}
+     *
+     * @param entityManagerFactory EntityManagerFactory for
+     *                             initializes Executor
+     */
     public UserDAOI(EntityManagerFactory entityManagerFactory) {
         this.executor = new Executor(entityManagerFactory);
     }
 
     @Override
     public UserAccount getUserById(long id) {
-        UserAccount userAccount = executor.doQuery(entityManager -> entityManager.find(UserAccount.class, id));
-        return userAccount;
+        return executor.doQuery(entityManager -> entityManager.find(UserAccount.class, id));
     }
 
     @Override
