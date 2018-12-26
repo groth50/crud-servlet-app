@@ -4,11 +4,11 @@ import accounts.UserAccount;
 import dao.UserDAO;
 import dao.UserDAOI;
 import java.util.Collection;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The class is used to work with the database.
