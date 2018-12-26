@@ -20,7 +20,7 @@ import javax.persistence.Persistence;
 public class DBService {
 
     /** Standard logger */
-    static final Logger LOGGER = LogManager.getLogger(DBService.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(DBService.class.getName());
 
     /** Default named persistence unit */
     private static final String PERSISTENCE_UNIT_NAME = "PERSISTENCE";
