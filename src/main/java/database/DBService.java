@@ -179,7 +179,6 @@ public class DBService {
      * DBService#PERSISTENCE_UNIT_NAME constant.
      */
     private static EntityManagerFactory createEntityManagerFactory() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-        return entityManagerFactory;
+        return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     }
 }
