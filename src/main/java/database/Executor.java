@@ -18,7 +18,7 @@ import javax.persistence.EntityTransaction;
 public class Executor {
 
     /** Standard logger */
-    static final Logger LOGGER = LogManager.getLogger(Executor.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(Executor.class.getName());
 
     /**
      * Object used to interact with the entity manager factory
