@@ -2,8 +2,6 @@ package accounts;
 
 import database.DBException;
 import database.DBService;
-
-import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -17,22 +15,25 @@ public class AccountServiceDB implements AccountService {
     /** Database layer, used for worked with database */
     private final DBService dbService;
 
-    /** Keep maps the user http session {@link HttpSession#toString()} to {@link UserAccount} */
+    /** Keep maps the user http session {@link javax.servlet.http.HttpSession#toString()} to {@link UserAccount} */
     private final Map<String, UserAccount> sessionIdToProfile;
 
-    // Constructs for use in tests
+    // Constructs for tests
     public AccountServiceDB() {
         dbService = new DBService();
         sessionIdToProfile = Collections.synchronizedMap(new WeakHashMap<>());
     }
 
     /**
+     * Constructs a new AccountServiceDB and initializes
+     * an {@link DBService} and session store
      *
-     * @param   dbService
-     *          The initial DBService
+     * @param dbService DBService instance
      */
     public AccountServiceDB(DBService dbService) {
         this.dbService = dbService;
+        // synchronized and if user don't logout, GC can to collect invalid session references
+        // if you need more efficient, use third party libraries
         sessionIdToProfile = Collections.synchronizedMap(new WeakHashMap<>());
     }
 
@@ -98,7 +99,7 @@ public class AccountServiceDB implements AccountService {
      * Return {@link UserAccount} by session ID
      *
      * @param sessionId  http session is <code>String</code>
-     *                   {@link HttpSession#toString()}
+     *                   {@link javax.servlet.http.HttpSession#toString()}
      *
      * @return UserAccount or <code>null</code>
      */
@@ -108,10 +109,10 @@ public class AccountServiceDB implements AccountService {
     }
 
     /**
-     * Add http session {@link HttpSession#toString()}
+     * Add http session {@link javax.servlet.http.HttpSession#toString()}
      *
      * @param sessionId http session is <code>String</code>
-     *                  {@link HttpSession#toString()}
+     *                  {@link javax.servlet.http.HttpSession#toString()}
      *
      * @param userAccount {@link UserAccount}
      */
@@ -121,10 +122,10 @@ public class AccountServiceDB implements AccountService {
     }
 
     /**
-     * Delete http session {@link HttpSession#toString()}
+     * Delete http session {@link javax.servlet.http.HttpSession#toString()}
      *
      * @param sessionId http session is <code>String</code>
-     *                  {@link HttpSession#toString()}
+     *                  {@link javax.servlet.http.HttpSession#toString()}
      */
     @Override
     public void deleteSession(String sessionId) {
