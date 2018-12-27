@@ -21,7 +21,7 @@ public interface UserDAO {
      * Return {@link UserAccount} entity by login from the data store
      *
      * @param login {@link UserAccount#login}
-     * is user login in application
+     *              is user login in application
      *
      * @return {@link UserAccount} entity
      */
@@ -32,7 +32,7 @@ public interface UserDAO {
      * {@link UserAccount} entities from the data store
      *
      * @return Collection contains all UserAccount
-     * entities from the data store
+     *         entities from the data store
      */
     Collection<UserAccount> getAllUsers();
 
@@ -40,13 +40,13 @@ public interface UserDAO {
      * Add new {@link UserAccount} to data storage
      *
      * @param login {@link UserAccount#login}
-     * is user login in application
+     *              is user login in application
      *
      * @param password {@link UserAccount#password}
-     * is user password in application
+     *                 is user password in application
      *
      * @param role {@link UserAccount#role}
-     * is user role in application
+     *             is user role in application
      */
     void insertUser(String login, String password, String role);
 
@@ -54,7 +54,7 @@ public interface UserDAO {
      * Delete {@link UserAccount} from data storage by ID
      *
      * @param id {@link UserAccount#id}
-     * is user ID in application to be removed
+     *           is user ID in application to be removed
      */
     void deleteUser(String id);
 
