@@ -28,7 +28,7 @@ public class DBService {
     /** Default error message */
     private static final String DEFAULT_MESSAGE = "Sorry, we have trouble with server. Try again.";
 
-    /** Data access object for users tables */
+    /** Data access object to "users" table  */
     private final UserDAO userDAO;
 
     /**
@@ -66,7 +66,7 @@ public class DBService {
      * Return {@link UserAccount} entity by login from database
      *
      * @param login {@link UserAccount#login}
-     * is user login in application
+     *              is user login in application
      *
      * @return {@link UserAccount} entity from database
      *
@@ -86,69 +86,12 @@ public class DBService {
     }
 
     /**
-     * Add new {@link UserAccount} in database
-     *
-     * @param login {@link UserAccount#login}
-     * is user login in application
-     *
-     * @param password {@link UserAccount#password}
-     * is user password in application
-     *
-     * @param role {@link UserAccount#role}
-     * is user role in application
-     *
-     * @throws DBException if the query for database fails
-     */
-    public void addNewUser(String login, String password, UserAccount.Role role) throws DBException {
-        try {
-            userDAO.insertUser(login, password, role.toString());
-        } catch (RuntimeException e) {
-            LOGGER.error(e);
-            throw new DBException(DEFAULT_MESSAGE, e);
-        }
-    }
-
-    /**
-     * Delete {@link UserAccount} from database by ID
-     *
-     * @param id {@link UserAccount#id}
-     * is user ID in application to be removed
-     *
-     * @throws DBException if the query for database fails
-     */
-    public void deleteUser(String id) throws DBException {
-        try {
-            userDAO.deleteUser(id);
-        } catch (RuntimeException e) {
-            LOGGER.error(e);
-            throw new DBException(DEFAULT_MESSAGE, e);
-        }
-    }
-
-    /**
-     * Update {@link UserAccount} in database in ORM style,
-     * user is updated UserAccount
-     *
-     * @param user updateable UserAccount
-     *
-     * @throws DBException if the query for database fails
-     */
-    public void updateUser(UserAccount user) throws DBException {
-        try {
-            userDAO.updateUser(user);
-        } catch (RuntimeException e) {
-            LOGGER.error(e);
-            throw new DBException(DEFAULT_MESSAGE, e);
-        }
-    }
-
-    /**
      *
      * Returns a {@link Collection} contains all
      * {@link UserAccount} entities from database
      *
      * @return Collection contains all UserAccount
-     * entities from database
+     *         entities from database
      *
      * @throws DBException if the query for database fails
      */
@@ -170,13 +113,69 @@ public class DBService {
     }
 
     /**
+     * Adds new {@link UserAccount} to database
+     *
+     * @param login {@link UserAccount#login}
+     *              is user login in application
+     *
+     * @param password {@link UserAccount#password}
+     *                 is user password in application
+     *
+     * @param role {@link UserAccount#role}
+     *             is user role in application
+     *
+     * @throws DBException if the query for database fails
+     */
+    public void addNewUser(String login, String password, UserAccount.Role role) throws DBException {
+        try {
+            userDAO.insertUser(login, password, role.toString());
+        } catch (RuntimeException e) {
+            LOGGER.error(e);
+            throw new DBException(DEFAULT_MESSAGE, e);
+        }
+    }
+
+    /**
+     * Delete {@link UserAccount} from database by ID
+     *
+     * @param id {@link UserAccount#id}
+     *           is user ID in application to be removed
+     *
+     * @throws DBException if the query for database fails
+     */
+    public void deleteUser(String id) throws DBException {
+        try {
+            userDAO.deleteUser(id);
+        } catch (RuntimeException e) {
+            LOGGER.error(e);
+            throw new DBException(DEFAULT_MESSAGE, e);
+        }
+    }
+
+    /**
+     * Save the changed {@link UserAccount} to database in ORM style
+     *
+     * @param user updateable UserAccount
+     *
+     * @throws DBException if the query for database fails
+     */
+    public void updateUser(UserAccount user) throws DBException {
+        try {
+            userDAO.updateUser(user);
+        } catch (RuntimeException e) {
+            LOGGER.error(e);
+            throw new DBException(DEFAULT_MESSAGE, e);
+        }
+    }
+
+    /**
      * Create and return an {@link EntityManagerFactory}
      * for the default named persistence unit in
      * {@link DBService#PERSISTENCE_UNIT_NAME} constant.
      *
      * @return The factory that creates EntityManagers
-     * configured according to the
-     * DBService#PERSISTENCE_UNIT_NAME constant.
+     *         configured according to the
+     *         DBService#PERSISTENCE_UNIT_NAME constant.
      */
     private static EntityManagerFactory createEntityManagerFactory() {
         return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
