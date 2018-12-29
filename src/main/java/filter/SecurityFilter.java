@@ -16,9 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Check authentication
- * SecurityFilter является Servlet Filter, который выполняет проверки всех запросов к защищенным страницам перед тем,
- * как позволить получить к ним доступ
+ * Intercept HTTP requests, check access rights
+ * for requestor and permit or denied access.
+ *
+ * @autor  Alex
  */
 @WebFilter(filterName = "Security", urlPatterns = {"/signup", "/signin", "/mainmenu", "/adminmenu", "/adduser", "/deleteuser", "/updateuser", "/userinfo"})
 public class SecurityFilter implements Filter {
@@ -28,7 +29,7 @@ public class SecurityFilter implements Filter {
 
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         this.accountService = FactoryAccountService.getAccountService();
     }
 
