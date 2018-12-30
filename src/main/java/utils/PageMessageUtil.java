@@ -2,6 +2,9 @@ package utils;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Helper for message in JSP
+ */
 public class PageMessageUtil {
 
     /**
