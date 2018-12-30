@@ -101,13 +101,9 @@ public class DBService {
             allUsers = userDAO.getAllUsers();
         } catch (NoResultException e) {
             LOGGER.error(e);
-            throw new DBException("Can't find user", e);
         } catch (RuntimeException e) {
             LOGGER.error(e);
             throw new DBException(DEFAULT_MESSAGE, e);
-        }
-        if (allUsers == null || allUsers.isEmpty()) {
-            throw new DBException("Can't find user");
         }
         return allUsers;
     }
