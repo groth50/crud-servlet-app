@@ -49,8 +49,15 @@ public class GetMainMenuServlet extends HttpServlet {
         } catch (DBException e) {
             LOGGER.error(e.toString());
             response.setContentType("text/html;charset=utf-8");
-            request.setAttribute("errorMessage", "Sorry, we have problems with server. Try again.");
-            response.setStatus(HttpServletResponse.SC_OK);
+            request.setAttribute("errorMessage", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            request.getRequestDispatcher(PATH).forward(request, response);
+            return;
+        }
+        if (users == null) {
+            response.setContentType("text/html;charset=utf-8");
+            request.setAttribute("errorMessage", "Can't find user");
+            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             request.getRequestDispatcher(PATH).forward(request, response);
             return;
         }
