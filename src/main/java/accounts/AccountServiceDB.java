@@ -2,7 +2,10 @@ package accounts;
 
 import database.DBException;
 import database.DBService;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Class for managing user accounts in database
