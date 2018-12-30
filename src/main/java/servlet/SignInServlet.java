@@ -48,7 +48,6 @@ public class SignInServlet extends HttpServlet {
         LOGGER.debug("doPost from " + this.getClass().getSimpleName());
         PageMessageUtil.clearPageMessageForDoPost(request);
 
-
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
