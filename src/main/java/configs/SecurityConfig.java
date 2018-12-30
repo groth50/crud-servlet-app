@@ -9,12 +9,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Класс SecurityConfig помогает конфигурировать роли и их доступ к функциям приложения (к страницам).
+ * Configuration class for roles
+ * and their access rights
+ *
+ * @author  Alex
+ * @see     filter.SecurityFilter
  */
 public class SecurityConfig {
+
     /**
-     * UserAccount.Role: Role
-     * List<String>: urlPatterns
+     * Map {@link UserAccount.Role} on
+     * {@link List} of available servlet path
      */
     private static final Map<UserAccount.Role, List<String>> mapConfig = new HashMap<>();
 
@@ -23,10 +28,11 @@ public class SecurityConfig {
     }
 
     /**
-     * Формирует для каждой роли список доступных страниц
+     * Init map {@link UserAccount.Role} on
+     * {@link List} of available servlet path
      */
     private static void init() {
-        // Конфигурация для роли "USER".
+        // List for "USER" role
         List<String> urlPatternsUser = new ArrayList<String>();
 
         urlPatternsUser.add("/mainmenu");
@@ -34,7 +40,7 @@ public class SecurityConfig {
 
         mapConfig.put(UserAccount.Role.USER, urlPatternsUser);
 
-        // Конфигурация для роли "ADMIN".
+        // List for "ADMIN" role
         List<String> urlPatternsAdmin = new ArrayList<String>();
 
         urlPatternsAdmin.add("/adminmenu");
@@ -48,14 +54,21 @@ public class SecurityConfig {
     }
 
     /**
-     * Возвращает множество всех ролей в приложении
+     * Return {@link Set} of all roles
+     *
+     * @return set of all roles
      */
     public static Set<UserAccount.Role> getAllAppRoles() {
         return mapConfig.keySet();
     }
 
     /**
-     * Возвращает список доступных страниц для переданной роли
+     * Return {@link List} of available
+     * servlet path for {@link UserAccount.Role}
+     *
+     * @param role user role
+     *
+     * @return List of available servlet path
      */
     public static List<String> getServletPathForRole(UserAccount.Role role) {
         return mapConfig.get(role);
