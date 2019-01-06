@@ -4,30 +4,55 @@ import accounts.AccountService;
 import accounts.FactoryAccountService;
 import accounts.UserAccount;
 import database.DBException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import utils.PageMessageUtil;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+/**
+ * Servlet which to provide forwarding AddUser JSP form by GET request,
+ * handle and process add user query from POST request.
+ */
 @WebServlet(name = "AddUser", urlPatterns = "/adduser")
 public class AddUserServlet extends HttpServlet {
-    private AccountService accountService;
+
+    /** Standard logger */
     static final Logger LOGGER = LogManager.getLogger(AddUserServlet.class.getName());
+
+    /**
+     * A JSP filename to which that servlet forwards
+     * the request to produce it's output
+     */
     public static final String PATH = "./jsp/add_user.jsp";
+
+    /** Provides the URL that invokes the servlet */
     public static final String URL = "/adduser";
 
+    /**
+     * Managing user accounts in database
+     * and their sessions in application.
+     */
+    private AccountService accountService;
+
+    /**
+     * Initialization resources
+     *
+     * @throws ServletException
+     */
     @Override
     public void init() throws ServletException {
         super.init();
         this.accountService = FactoryAccountService.getAccountService();
     }
 
+    /**
+     * Close resources
+     */
     @Override
     public void destroy() {
         super.destroy();
@@ -53,7 +78,7 @@ public class AddUserServlet extends HttpServlet {
         String role = request.getParameter("role");
 
         if (login == null || password == null || role == null || login.isEmpty() || password.isEmpty() || role.isEmpty()) {
-            LOGGER.debug("null login");
+            LOGGER.debug("null form data");
             response.setContentType("text/html;charset=utf-8");
             request.setAttribute("errorMessage", "Please, insert login and password");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -66,10 +91,7 @@ public class AddUserServlet extends HttpServlet {
             profile = accountService.getUserByLogin(login);
         } catch (DBException e) {
             LOGGER.error(e.toString());
-            response.setContentType("text/html;charset=utf-8");
-            request.setAttribute("errorMessage", e.getMessage());
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            request.getRequestDispatcher(PATH).forward(request, response);
+            PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, e.getMessage());
             return;
         }
         if (profile == null) {
@@ -81,10 +103,7 @@ public class AddUserServlet extends HttpServlet {
                 accountService.addNewUser(login, password, userRole);
             } catch (DBException e) {
                 LOGGER.error(e.toString());
-                response.setContentType("text/html;charset=utf-8");
-                request.setAttribute("errorMessage", e.getMessage());
-                response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-                request.getRequestDispatcher(PATH).forward(request, response);
+                PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, e.getMessage());
                 return;
             }
             request.getSession().setAttribute("successMessage", "Add user successful!");
