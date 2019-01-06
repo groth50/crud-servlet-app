@@ -35,7 +35,7 @@ public class SecurityFilter implements Filter {
     private AccountService accountService;
 
     /**
-     * Initialization method
+     * Initialization resources
      *
      * @param filterConfig see {@link Filter#init(FilterConfig)}
      */
