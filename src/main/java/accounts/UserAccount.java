@@ -3,6 +3,10 @@ package accounts;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Class represents user account in application.
+ * This is entity instances for Java Persistence.
+ */
 @Entity
 @Table(name = "users")
 public class UserAccount implements Serializable {
@@ -20,6 +24,7 @@ public class UserAccount implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    // Constructor for JPA provider
     public UserAccount() {
     }
 
