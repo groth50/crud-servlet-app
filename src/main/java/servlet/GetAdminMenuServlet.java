@@ -49,10 +49,11 @@ public class GetAdminMenuServlet extends HttpServlet {
             users = accountService.getAllUsers();
         } catch (DBException e) {
             LOGGER.error(e.toString());
-            response.setContentType("text/html;charset=utf-8");
-            request.setAttribute("errorMessage", "Sorry, we have problems with server. Try again.");
-            response.setStatus(HttpServletResponse.SC_OK);
-            request.getRequestDispatcher(PATH).forward(request, response);
+            PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, e.getMessage());
+            return;
+        }
+        if (users == null || users.isEmpty()) {
+            PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, "Can't find user");
             return;
         }
         request.setAttribute("users", users);

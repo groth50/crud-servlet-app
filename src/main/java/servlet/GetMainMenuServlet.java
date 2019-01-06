@@ -48,17 +48,11 @@ public class GetMainMenuServlet extends HttpServlet {
             users = accountService.getAllUsers();
         } catch (DBException e) {
             LOGGER.error(e.toString());
-            response.setContentType("text/html;charset=utf-8");
-            request.setAttribute("errorMessage", e.getMessage());
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            request.getRequestDispatcher(PATH).forward(request, response);
+            PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, e.getMessage());
             return;
         }
-        if (users == null) {
-            response.setContentType("text/html;charset=utf-8");
-            request.setAttribute("errorMessage", "Can't find user");
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            request.getRequestDispatcher(PATH).forward(request, response);
+        if (users == null || users.isEmpty()) {
+            PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, "Can't find user");
             return;
         }
         request.setAttribute("currentUser", currentUser);
