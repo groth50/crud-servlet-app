@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import utils.PageMessageUtil;
 
 /**
  * Servlet which to provide handle and process
@@ -59,13 +60,10 @@ public class DeleteUserServlet extends HttpServlet {
                 int idNum = 0;
         try {
             idNum = Integer.parseInt(id);
-        } catch (NumberFormatException ignore) {
+        } catch (NumberFormatException ignore) {}
 
-        }
         if (idNum <= 0) {
-            request.setAttribute("errorMessage", "Incorrect id.");
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            request.getRequestDispatcher(GetAdminMenuServlet.PATH).forward(request, response);
+            PageMessageUtil.printBadRequestErrorMessage(request, response, GetAdminMenuServlet.PATH, "Incorrect id.");
             return;
         }
 
@@ -85,4 +83,5 @@ public class DeleteUserServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect(request.getContextPath() + GetAdminMenuServlet.URL);
     }
+
 }
