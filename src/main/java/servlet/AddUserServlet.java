@@ -60,7 +60,7 @@ public class AddUserServlet extends HttpServlet {
     }
 
     /**
-     * Forwarding AddUser JSP form
+     * Forwarding add user JSP form
      *
      * @param request see {@link HttpServletRequest}
      *
@@ -94,6 +94,7 @@ public class AddUserServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doPost from " + this.getClass().getSimpleName());
+
         PageMessageUtil.clearPageMessageForDoPost(request);
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -115,31 +116,30 @@ public class AddUserServlet extends HttpServlet {
             PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, e.getMessage());
             return;
         }
-        if (profile == null) {
-            UserAccount.Role userRole = null;
-            try {
-                userRole = UserAccount.Role.valueOf(role.toUpperCase());
-            }
-            finally {
-                if (userRole == null) {
-                    userRole = UserAccount.Role.USER;
-                }
-            }
-            try {
-                accountService.addNewUser(login, password, userRole);
-            } catch (DBException e) {
-                LOGGER.error(e.toString());
-                PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, e.getMessage());
-                return;
-            }
-            request.getSession().setAttribute("successMessage", "Add user successful!");
-            response.sendRedirect(request.getContextPath() + GetAdminMenuServlet.URL);
+        if (profile != null) {
+            PageMessageUtil.printBadRequestErrorMessage(request, response,
+                    PATH, "Login already exist. Please, choose another login.");
             return;
         }
-
-        LOGGER.debug("profile already exist");
-        PageMessageUtil.printBadRequestErrorMessage(request, response,
-                PATH, "Login already exist. Please, choose another login.");
+        UserAccount.Role userRole = null;
+        try {
+            userRole = UserAccount.Role.valueOf(role.toUpperCase());
+        }
+        finally {
+            if (userRole == null) {
+                // default role
+                userRole = UserAccount.Role.USER;
+            }
+        }
+        try {
+            accountService.addNewUser(login, password, userRole);
+        } catch (DBException e) {
+            LOGGER.error(e.toString());
+            PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, e.getMessage());
+            return;
+        }
+        request.getSession().setAttribute("successMessage", "Add user successful!");
+        response.sendRedirect(request.getContextPath() + GetAdminMenuServlet.URL);
     }
 
 }
