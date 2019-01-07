@@ -57,7 +57,7 @@ public class DeleteUserServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doPost from " + this.getClass().getSimpleName());
         String id = request.getParameter("userId");
-                int idNum = 0;
+        int idNum = 0;
         try {
             idNum = Integer.parseInt(id);
         } catch (NumberFormatException ignore) {}
@@ -71,11 +71,7 @@ public class DeleteUserServlet extends HttpServlet {
             accountService.deleteUser(id);
         } catch (DBException e) {
             LOGGER.error(e);
-            response.setContentType("text/html;charset=utf-8");
-            request.getSession().setAttribute("errorMessage", "Sorry, we have problems with server."
-                    + e.getMessage() + "Try again.");
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            request.getRequestDispatcher(GetAdminMenuServlet.PATH).forward(request, response);
+            PageMessageUtil.printServiceUnavailableErrorMessage(request, response, GetAdminMenuServlet.PATH, e.getMessage());
             return;
         }
         response.setContentType("text/html;charset=utf-8");
