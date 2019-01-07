@@ -15,26 +15,61 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+/**
+ * Servlet which to provide forwarding admin menu JSP form by GET request.
+ */
 @WebServlet(name = "AdminMenu", urlPatterns = "/adminmenu")
 public class GetAdminMenuServlet extends HttpServlet {
+
+    /** Standard logger */
     static final Logger LOGGER = LogManager.getLogger(GetAdminMenuServlet.class.getName());
+
+    /**
+     * A JSP filename to which that servlet forwards
+     * the request to produce it's output
+     */
     public static final String PATH = "./jsp/admin_menu.jsp";
+
+    /** Provides the URL that invokes the servlet */
     public static final String URL = "/adminmenu";
+
+    /**
+     * Managing user accounts in database
+     * and their sessions in application.
+     */
     private AccountService accountService;
 
+    /**
+     * Initialization resources
+     *
+     * @throws ServletException
+     */
     @Override
     public void init() throws ServletException {
         super.init();
         this.accountService = FactoryAccountService.getAccountService();
     }
 
+    /**
+     * Close resources
+     */
     @Override
     public void destroy() {
         super.destroy();
         this.accountService = null;
     }
 
+    /**
+     * Forwarding admin menu JSP form
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException
+     *
+     * @throws IOException
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doGet from " + this.getClass().getSimpleName());
