@@ -1,38 +1,55 @@
 package servlet;
 
 import accounts.AccountService;
-
+import accounts.FactoryAccountService;
+import database.DBException;
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import accounts.FactoryAccountService;
-import database.DBException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-
+/**
+ * Servlet which to provide handle and process
+ * delete user query from POST request.
+ */
 @WebServlet(name = "DeleteUser", urlPatterns = "/deleteuser")
 public class DeleteUserServlet extends HttpServlet {
-    private AccountService accountService;
+
+    /** Standard logger */
     static final Logger LOGGER = LogManager.getLogger(DeleteUserServlet.class.getName());
+
+    /** Provides the URL that invokes the servlet */
     public static final String URL = "/deleteuser";
 
+    /**
+     * Managing user accounts in database
+     * and their sessions in application.
+     */
+    private AccountService accountService;
+
+    /**
+     * Initialization resources
+     *
+     * @throws ServletException
+     */
     @Override
     public void init() throws ServletException {
         super.init();
         this.accountService = FactoryAccountService.getAccountService();
     }
 
+    /**
+     * Close resources
+     */
     @Override
     public void destroy() {
         super.destroy();
         this.accountService = null;
     }
-
 
 
     @Override
