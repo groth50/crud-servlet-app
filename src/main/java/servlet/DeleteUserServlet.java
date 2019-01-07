@@ -52,26 +52,37 @@ public class DeleteUserServlet extends HttpServlet {
         this.accountService = null;
     }
 
-
+    /**
+     * Handle and process delete user query
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException
+     *
+     * @throws IOException
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doPost from " + this.getClass().getSimpleName());
+
         String id = request.getParameter("userId");
         int idNum = 0;
         try {
             idNum = Integer.parseInt(id);
         } catch (NumberFormatException ignore) {}
-
         if (idNum <= 0) {
-            PageMessageUtil.printBadRequestErrorMessage(request, response, GetAdminMenuServlet.PATH, "Incorrect id.");
+            PageMessageUtil.printBadRequestErrorMessage(request, response,
+                    GetAdminMenuServlet.PATH, "Incorrect id.");
             return;
         }
-
         try {
             accountService.deleteUser(id);
         } catch (DBException e) {
             LOGGER.error(e);
-            PageMessageUtil.printServiceUnavailableErrorMessage(request, response, GetAdminMenuServlet.PATH, e.getMessage());
+            PageMessageUtil.printServiceUnavailableErrorMessage(request, response,
+                    GetAdminMenuServlet.PATH, e.getMessage());
             return;
         }
         response.setContentType("text/html;charset=utf-8");
