@@ -59,6 +59,17 @@ public class AddUserServlet extends HttpServlet {
         this.accountService = null;
     }
 
+    /**
+     * Forwarding AddUser JSP form
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException
+     *
+     * @throws IOException
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doGet from " + this.getClass().getSimpleName());
@@ -69,6 +80,17 @@ public class AddUserServlet extends HttpServlet {
         request.getRequestDispatcher(PATH).forward(request, response);
     }
 
+    /**
+     * Handle and process add user query
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException
+     *
+     * @throws IOException
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doPost from " + this.getClass().getSimpleName());
@@ -77,12 +99,11 @@ public class AddUserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String role = request.getParameter("role");
 
-        if (login == null || password == null || role == null || login.isEmpty() || password.isEmpty() || role.isEmpty()) {
+        if (login == null || password == null || role == null
+                || login.isEmpty() || password.isEmpty() || role.isEmpty()) {
             LOGGER.debug("null form data");
-            response.setContentType("text/html;charset=utf-8");
-            request.setAttribute("errorMessage", "Please, insert login and password");
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            request.getRequestDispatcher(PATH).forward(request, response);
+            PageMessageUtil.printBadRequestErrorMessage(request, response,
+                    PATH, "Please, insert login and password");
             return;
         }
 
@@ -95,9 +116,14 @@ public class AddUserServlet extends HttpServlet {
             return;
         }
         if (profile == null) {
-            UserAccount.Role userRole = UserAccount.Role.valueOf(role.toUpperCase());
-            if (userRole == null) {
-                userRole = UserAccount.Role.USER;
+            UserAccount.Role userRole = null;
+            try {
+                userRole = UserAccount.Role.valueOf(role.toUpperCase());
+            }
+            finally {
+                if (userRole == null) {
+                    userRole = UserAccount.Role.USER;
+                }
             }
             try {
                 accountService.addNewUser(login, password, userRole);
@@ -112,9 +138,8 @@ public class AddUserServlet extends HttpServlet {
         }
 
         LOGGER.debug("profile already exist");
-        response.setContentType("text/html;charset=utf-8");
-        request.setAttribute("errorMessage", "Login already exist. Please, choose another login.");
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        request.getRequestDispatcher(PATH).forward(request, response);
+        PageMessageUtil.printBadRequestErrorMessage(request, response,
+                PATH, "Login already exist. Please, choose another login.");
     }
+
 }
