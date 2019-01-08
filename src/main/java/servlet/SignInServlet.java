@@ -14,12 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Servlet which to provide forwarding add sign in JSP form by GET request,
+ * and login user from POST request.
+ */
 @WebServlet(name = "SignIn", urlPatterns = "/signin")
 public class SignInServlet extends HttpServlet {
-    private AccountService accountService;
-    static final Logger LOGGER = LogManager.getLogger(SignInServlet.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(SignInServlet.class.getName());
     public static final String PATH = "./jsp/sign_in.jsp";
     public static final String URL = "/signin";
+    private AccountService accountService;
 
     @Override
     public void init() throws ServletException {
