@@ -4,24 +4,40 @@ import accounts.AccountService;
 import accounts.FactoryAccountService;
 import accounts.UserAccount;
 import database.DBException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import utils.PageMessageUtil;
-
+import java.io.IOException;
+import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Collection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+/**
+ * Servlet which to provide forwarding main menu JSP form by GET request.
+ */
 @WebServlet(name = "GetMainMenu", urlPatterns = "/mainmenu")
 public class GetMainMenuServlet extends HttpServlet {
-    private AccountService accountService;
-    static final Logger LOGGER = LogManager.getLogger(GetMainMenuServlet.class.getName());
+
+    /** Standard logger */
+    private static final Logger LOGGER = LogManager.getLogger(GetMainMenuServlet.class.getName());
+
+    /**
+     * A JSP filename to which that servlet forwards
+     * the request to produce it's output
+     */
     public static final String PATH = "./jsp/main_menu.jsp";
+
+    /** Provides the URL that invokes the servlet */
     public static final String URL = "/mainmenu";
+
+    /**
+     * Managing user accounts in database
+     * and their sessions in application.
+     */
+    private AccountService accountService;
 
     @Override
     public void init() throws ServletException {
