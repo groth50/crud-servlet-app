@@ -17,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Servlet which to provide forwarding admin menu JSP form by GET request.
+ *
+ * @autor  Alex
  */
 @WebServlet(name = "AdminMenu", urlPatterns = "/adminmenu")
 public class GetAdminMenuServlet extends HttpServlet {

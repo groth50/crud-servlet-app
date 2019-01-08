@@ -14,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Servlet which to provide logout for users.
+ *
+ * @autor  Alex
  */
 @WebServlet(name = "LogOut", urlPatterns = "/logout")
 public class LogOutServlet extends HttpServlet {

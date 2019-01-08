@@ -17,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 /**
  * Servlet which to provide forwarding add sign in JSP form by GET request,
  * and login user from POST request.
+ *
+ * @autor  Alex
  */
 @WebServlet(name = "SignIn", urlPatterns = "/signin")
 public class SignInServlet extends HttpServlet {

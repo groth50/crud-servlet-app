@@ -17,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 /**
  * Servlet which to provide forwarding add user JSP form by GET request,
  * handle and process add user query from POST request.
+ *
+ * @autor  Alex
  */
 @WebServlet(name = "AddUser", urlPatterns = "/adduser")
 public class AddUserServlet extends HttpServlet {
