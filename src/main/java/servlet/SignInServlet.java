@@ -46,29 +46,21 @@ public class SignInServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doPost from " + this.getClass().getSimpleName());
-        PageMessageUtil.clearPageMessageForDoPost(request);
 
+        PageMessageUtil.clearPageMessageForDoPost(request);
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-
-
         if (login == null || password == null || login.isEmpty() || password.isEmpty()) {
-            response.setContentType("text/html;charset=utf-8");
-            request.setAttribute("errorMessage", "Please, insert your login and password");
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            request.getRequestDispatcher(PATH).forward(request, response);
+            PageMessageUtil.printBadRequestErrorMessage(request, response,
+                    PATH, "Please, insert your login and password");
             return;
         }
-
         UserAccount profile = null;
         try {
             profile = accountService.getUserByLogin(login);
         } catch (DBException e) {
-            LOGGER.error(e.toString());
-            response.setContentType("text/html;charset=utf-8");
-            request.setAttribute("errorMessage", e.getMessage());
-            response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
-            request.getRequestDispatcher(PATH).forward(request, response);
+            LOGGER.error(e);
+            PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, e.getMessage());
             return;
         }
         if (profile == null || !profile.getPassword().equals(password)) {
