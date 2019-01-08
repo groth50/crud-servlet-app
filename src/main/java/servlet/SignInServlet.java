@@ -62,7 +62,7 @@ public class SignInServlet extends HttpServlet {
     }
 
     /**
-     * Forwarding sign in JSP form
+     * Forwarding signin JSP form
      *
      * @param request see {@link HttpServletRequest}
      *
