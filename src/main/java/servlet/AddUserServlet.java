@@ -112,7 +112,7 @@ public class AddUserServlet extends HttpServlet {
         try {
             profile = accountService.getUserByLogin(login);
         } catch (DBException e) {
-            LOGGER.error(e.toString());
+            LOGGER.error(e);
             PageMessageUtil.printServiceUnavailableErrorMessage(request, response, PATH, e.getMessage());
             return;
         }
