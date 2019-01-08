@@ -20,32 +20,76 @@ import org.apache.logging.log4j.Logger;
  */
 @WebServlet(name = "SignIn", urlPatterns = "/signin")
 public class SignInServlet extends HttpServlet {
+
+    /** Standard logger */
     private static final Logger LOGGER = LogManager.getLogger(SignInServlet.class.getName());
+
+    /**
+     * A JSP filename to which that servlet forwards
+     * the request to produce it's output
+     */
     public static final String PATH = "./jsp/sign_in.jsp";
+
+    /** Provides the URL that invokes the servlet */
     public static final String URL = "/signin";
+
+    /**
+     * Managing user accounts in database
+     * and their sessions in application.
+     */
     private AccountService accountService;
 
+    /**
+     * Initialization resources
+     *
+     * @throws ServletException see {@link HttpServlet#init()}
+     */
     @Override
     public void init() throws ServletException {
         super.init();
         this.accountService = FactoryAccountService.getAccountService();
     }
 
+    /**
+     * Close resources
+     */
     @Override
     public void destroy() {
         super.destroy();
         this.accountService = null;
     }
 
+    /**
+     * Forwarding sign in JSP form
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
+     *
+     * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doGet from " + this.getClass().getSimpleName());
-        PageMessageUtil.clearPageMessageForDoGet(request);
 
+        PageMessageUtil.clearPageMessageForDoGet(request);
         response.setStatus(HttpServletResponse.SC_OK);
         request.getRequestDispatcher(PATH).forward(request, response);
     }
 
+    /**
+     * Handle and process request for login user
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
+     *
+     * @throws IOException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doPost from " + this.getClass().getSimpleName());
