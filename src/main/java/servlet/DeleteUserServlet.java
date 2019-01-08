@@ -21,7 +21,7 @@ import utils.PageMessageUtil;
 public class DeleteUserServlet extends HttpServlet {
 
     /** Standard logger */
-    static final Logger LOGGER = LogManager.getLogger(DeleteUserServlet.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(DeleteUserServlet.class.getName());
 
     /** Provides the URL that invokes the servlet */
     public static final String URL = "/deleteuser";
