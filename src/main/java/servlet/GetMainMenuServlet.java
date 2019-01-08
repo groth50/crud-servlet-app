@@ -75,9 +75,7 @@ public class GetMainMenuServlet extends HttpServlet {
         LOGGER.debug("doGet from " + this.getClass().getSimpleName());
 
         PageMessageUtil.clearPageMessageForDoGet(request);
-
         UserAccount currentUser = accountService.getUserBySessionId(request.getSession().getId());
-
         Collection<UserAccount> users = null;
         try {
             users = accountService.getAllUsers();
