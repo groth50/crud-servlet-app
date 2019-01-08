@@ -13,6 +13,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class ConfigServletTest {
     public static final long DEFAULT_LONG_ID = 1;
     public static final String DEFAULT_STRING_ID = String.valueOf(DEFAULT_LONG_ID);
@@ -27,6 +30,7 @@ public class ConfigServletTest {
     public static final UserAccount.Role DEFAULT_ROLE = UserAccount.Role.valueOf(DEFAULT_STRING_ROlE);
     public static final UserAccount DEFAULT_USER = getNewUserAccount(DEFAULT_LONG_ID, DEFAULT_LOGIN, DEFAULT_PASSWORD);
     public static final UserAccount DEFAULT_ADMIN = getNewAdminAccount(DEFAULT_LONG_ID, DEFAULT_LOGIN, DEFAULT_PASSWORD);
+    public static final Collection<UserAccount> DEFAULT_ALL_USERS = new ArrayList<>();
 
     protected HttpServletRequest request;
     protected HttpServletResponse response;
@@ -47,6 +51,8 @@ public class ConfigServletTest {
         accountService = Mockito.mock(AccountService.class);
         session = Mockito.mock(HttpSession.class);
         chain = Mockito.mock(FilterChain.class);
+        DEFAULT_ALL_USERS.add(DEFAULT_USER);
+        DEFAULT_ALL_USERS.add(DEFAULT_ADMIN);
     }
 
     @After
@@ -57,6 +63,7 @@ public class ConfigServletTest {
         accountService = null;
         session = null;
         chain = null;
+        DEFAULT_ALL_USERS.clear();
     }
 
     private static UserAccount getNewUserAccount(long id, String login, String password) {

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
+
+import database.DBException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +33,12 @@ public class GetMainMenuServletTest extends ConfigServletTest {
     }
 
     @Test
-    public void testDoGet() throws ServletException, IOException {
+    public void testDoGet() throws ServletException, IOException, DBException {
         when(request.getRequestDispatcher(GetMainMenuServlet.PATH)).thenReturn(dispatcher);
         when(request.getSession()).thenReturn(session);
         when(session.getId()).thenReturn(DEFAULT_SESSION_ID);
         when(accountService.getUserBySessionId(DEFAULT_SESSION_ID)).thenReturn(DEFAULT_USER);
+        when(accountService.getAllUsers()).thenReturn(DEFAULT_ALL_USERS);
 
         servlet.doGet(request, response);
 
