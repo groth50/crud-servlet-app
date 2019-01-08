@@ -44,4 +44,10 @@ public class PageMessageUtil {
         request.getRequestDispatcher(path).forward(request, response);
     }
 
+    public static void printBadRequestErrorMessage(HttpServletRequest request, HttpServletResponse response, String path, String message) throws ServletException, IOException {
+        response.setContentType("text/html;charset=utf-8");
+        request.setAttribute("errorMessage", message);
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        request.getRequestDispatcher(path).forward(request, response);
+    }
 }
