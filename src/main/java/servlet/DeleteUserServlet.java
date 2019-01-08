@@ -35,7 +35,7 @@ public class DeleteUserServlet extends HttpServlet {
     /**
      * Initialization resources
      *
-     * @throws ServletException
+     * @throws ServletException see {@link HttpServlet#init()}
      */
     @Override
     public void init() throws ServletException {
@@ -59,9 +59,9 @@ public class DeleteUserServlet extends HttpServlet {
      *
      * @param response see {@link HttpServletResponse}
      *
-     * @throws ServletException
+     * @throws ServletException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
      *
-     * @throws IOException
+     * @throws IOException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
      */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
