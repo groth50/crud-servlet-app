@@ -37,7 +37,7 @@ public class SignInServlet extends HttpServlet {
 
     /**
      * Managing user accounts in database
-     * and their sessions in application.
+     * and their sessions in application
      */
     private AccountService accountService;
 
