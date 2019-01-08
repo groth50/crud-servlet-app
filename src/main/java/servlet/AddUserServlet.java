@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 public class AddUserServlet extends HttpServlet {
 
     /** Standard logger */
-    static final Logger LOGGER = LogManager.getLogger(AddUserServlet.class.getName());
+    private static final Logger LOGGER = LogManager.getLogger(AddUserServlet.class.getName());
 
     /**
      * A JSP filename to which that servlet forwards
