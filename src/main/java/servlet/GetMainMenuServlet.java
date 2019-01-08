@@ -60,7 +60,7 @@ public class GetMainMenuServlet extends HttpServlet {
     }
 
     /**
-     * Forwarding admin menu JSP form
+     * Forwarding main menu JSP form
      *
      * @param request see {@link HttpServletRequest}
      *
