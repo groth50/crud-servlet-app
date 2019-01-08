@@ -15,7 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Servlet which to provide forwarding sign in JSP form by GET request,
+ * Servlet which to provide forwarding signin JSP form by GET request,
  * and login user from POST request.
  *
  * @autor  Alex
