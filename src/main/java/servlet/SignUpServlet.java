@@ -22,29 +22,56 @@ import org.apache.logging.log4j.Logger;
  */
 @WebServlet(name = "SignUp", urlPatterns = "/signup")
 public class SignUpServlet extends HttpServlet {
+
+    /** Standard logger */
     private static final Logger LOGGER = LogManager.getLogger(SignUpServlet.class.getName());
 
-    /** Path for SignUp page */
+    /**
+     * A JSP filename to which that servlet forwards
+     * the request to produce it's output
+     */
     public static final String PATH = "./jsp/sign_up.jsp";
 
-    /** Servlet path */
+    /** Provides the URL that invokes the servlet */
     public static final String URL = "/signup";
 
-    /** Managing user accounts and their sessions */
+    /**
+     * Managing user accounts in database
+     * and their sessions in application
+     */
     private AccountService accountService;
 
+    /**
+     * Initialization resources
+     *
+     * @throws ServletException see {@link HttpServlet#init()}
+     */
     @Override
     public void init() throws ServletException {
         super.init();
         this.accountService = FactoryAccountService.getAccountService();
     }
 
+    /**
+     * Close resources
+     */
     @Override
     public void destroy() {
         super.destroy();
         this.accountService = null;
     }
 
+    /**
+     * Forwarding signup JSP form
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
+     *
+     * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doGet from " + this.getClass().getSimpleName());
@@ -53,6 +80,17 @@ public class SignUpServlet extends HttpServlet {
         request.getRequestDispatcher(PATH).forward(request, response);
     }
 
+    /**
+     * Handle and process request for user registration
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
+     *
+     * @throws IOException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doPost from " + this.getClass().getSimpleName());
