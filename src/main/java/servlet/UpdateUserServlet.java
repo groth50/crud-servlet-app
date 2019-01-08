@@ -14,26 +14,64 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Servlet which to provide forwarding update user JSP form by GET request,
+ * handle and process update user query from POST request.
+ *
+ * @autor  Alex
+ */
 @WebServlet(name = "UpdateUser", urlPatterns = "/updateuser")
 public class UpdateUserServlet extends HttpServlet {
+
+    /** Standard logger */
     private static final Logger LOGGER = LogManager.getLogger(UpdateUserServlet.class.getName());
+
+    /**
+     * A JSP filename to which that servlet forwards
+     * the request to produce it's output
+     */
     public static final String PATH = "./jsp/update_user.jsp";
+
+    /** Provides the URL that invokes the servlet */
     public static final String URL = "/updateuser";
 
+    /**
+     * Managing user accounts in database
+     * and their sessions in application.
+     */
     private AccountService accountService;
 
+    /**
+     * Initialization resources
+     *
+     * @throws ServletException see {@link HttpServlet#init()}
+     */
     @Override
     public void init() throws ServletException {
         super.init();
         this.accountService = FactoryAccountService.getAccountService();
     }
 
+    /**
+     * Close resources
+     */
     @Override
     public void destroy() {
         super.destroy();
         this.accountService = null;
     }
 
+    /**
+     * Forwarding update user JSP form and set form fields
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
+     *
+     * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doGet from " + this.getClass().getSimpleName());
@@ -75,14 +113,25 @@ public class UpdateUserServlet extends HttpServlet {
         request.getRequestDispatcher(PATH).forward(request, response);
     }
 
+    /**
+     * Handle and process update user query
+     *
+     * @param request see {@link HttpServletRequest}
+     *
+     * @param response see {@link HttpServletResponse}
+     *
+     * @throws ServletException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
+     *
+     * @throws IOException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LOGGER.debug("doPost from " + this.getClass().getSimpleName());
+
         PageMessageUtil.clearPageMessageForDoPost(request);
         String newLogin = request.getParameter("login");
         String newPassword = request.getParameter("password");
         String roleString = request.getParameter("role");
-
         UserAccount user = (UserAccount) request.getServletContext().getAttribute("user");
         if (user == null) {
             response.setContentType("text/html;charset=utf-8");
