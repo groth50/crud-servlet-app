@@ -75,7 +75,6 @@ public class AddUserServlet extends HttpServlet {
         LOGGER.debug("doGet from " + this.getClass().getSimpleName());
 
         PageMessageUtil.clearPageMessageForDoGet(request);
-
         response.setStatus(HttpServletResponse.SC_OK);
         request.getRequestDispatcher(PATH).forward(request, response);
     }
