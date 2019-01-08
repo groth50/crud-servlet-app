@@ -29,7 +29,7 @@ public class GetUserInfoServlet extends HttpServlet {
     public static final String PATH = "./jsp/user_info.jsp";
 
     /** Provides the URL that invokes the servlet */
-    public static final String URL = "/user_info";
+    public static final String URL = "/userinfo";
 
     /**
      * Managing user accounts in database
