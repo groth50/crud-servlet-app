@@ -42,7 +42,7 @@ public class GetAdminMenuServlet extends HttpServlet {
     /**
      * Initialization resources
      *
-     * @throws ServletException
+     * @throws ServletException see {@link HttpServlet#init()}
      */
     @Override
     public void init() throws ServletException {
@@ -66,9 +66,9 @@ public class GetAdminMenuServlet extends HttpServlet {
      *
      * @param response see {@link HttpServletResponse}
      *
-     * @throws ServletException
+     * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
      *
-     * @throws IOException
+     * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
      */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
