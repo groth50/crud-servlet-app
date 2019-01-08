@@ -73,10 +73,8 @@ public class GetUserInfoServlet extends HttpServlet {
         LOGGER.debug("doGet from " + this.getClass().getSimpleName());
 
         PageMessageUtil.clearPageMessageForDoGet(request);
-
         UserAccount currentUser = accountService.getUserBySessionId(request.getSession().getId());
         request.setAttribute("currentUser", currentUser);
-
         response.setStatus(HttpServletResponse.SC_OK);
         request.getRequestDispatcher(PATH).forward(request, response);
     }
