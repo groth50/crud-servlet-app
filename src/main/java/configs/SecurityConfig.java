@@ -11,8 +11,8 @@ import java.util.Set;
  * Configuration class for roles
  * and their access rights
  *
- * @author  Alex
- * @see     filter.SecurityFilter
+ * @author Alex
+ * @see    filter.SecurityFilter
  */
 public class SecurityConfig {
 
