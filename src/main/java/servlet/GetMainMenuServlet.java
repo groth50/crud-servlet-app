@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * Servlet which to provide forwarding main menu JSP form by GET request.
  *
- * @autor  Alex
+ * @autor Alex
  */
 @WebServlet(name = "GetMainMenu", urlPatterns = "/mainmenu")
 public class GetMainMenuServlet extends HttpServlet {
