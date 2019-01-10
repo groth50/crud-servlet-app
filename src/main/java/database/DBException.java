@@ -7,6 +7,7 @@ package database;
  * @autor  Alex
  */
 public class DBException extends Exception {
+
     /**
      * The throwable that caused this throwable to get thrown, or null if this
      * throwable was not caused by another throwable.
@@ -61,5 +62,14 @@ public class DBException extends Exception {
     public DBException(String message, Throwable rootCause) {
         super(message, rootCause);
         this.rootCause = rootCause;
+    }
+
+    /**
+     * Getter for rootCause
+     *
+     * @return {@link Throwable}
+     */
+    public Throwable getRootCause() {
+        return rootCause;
     }
 }
