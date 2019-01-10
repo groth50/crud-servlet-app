@@ -5,6 +5,8 @@ import java.util.Collection;
 
 /**
  * Interface that provides data access for users table.
+ *
+ * @autor Alex
  */
 public interface UserDAO {
 
