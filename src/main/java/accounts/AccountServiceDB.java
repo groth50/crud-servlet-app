@@ -11,14 +11,15 @@ import java.util.WeakHashMap;
  * Class for managing user accounts in database
  * and their sessions in application.
  *
- * @autor  Alex
+ * @autor Alex
  */
 public class AccountServiceDB implements AccountService {
 
     /** Database layer, used for worked with database */
     private final DBService dbService;
 
-    /** Keep maps the user http session {@link javax.servlet.http.HttpSession#toString()} to {@link UserAccount} */
+    /** Keep maps the user http session
+     *  {@link javax.servlet.http.HttpSession#toString()} to {@link UserAccount} */
     private final Map<String, UserAccount> sessionIdToProfile;
 
     // Constructs for tests
@@ -116,8 +117,7 @@ public class AccountServiceDB implements AccountService {
      *
      * @param sessionId http session is <code>String</code>
      *                  {@link javax.servlet.http.HttpSession#toString()}
-     *
-     * @param userAccount {@link UserAccount}
+     * @param userAccount see {@link UserAccount}
      */
     @Override
     public void addSession(String sessionId, UserAccount userAccount) {
