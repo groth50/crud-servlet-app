@@ -6,6 +6,8 @@ import java.io.Serializable;
 /**
  * Class represents user account in application.
  * This is entity instances for Java Persistence.
+ *
+ * @autor Alex
  */
 @Entity
 @Table(name = "users")

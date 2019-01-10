@@ -5,7 +5,7 @@ import database.DBService;
 /**
  * Class used for return instance {@link AccountService}
  *
- * @autor  Alex
+ * @autor Alex
  */
 public class FactoryAccountService {
 
