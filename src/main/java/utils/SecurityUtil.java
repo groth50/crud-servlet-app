@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Helper for {@link filter.SecurityFilter}
  *
- * @autor  Alex
+ * @autor Alex
  */
 public class SecurityUtil {
 
