@@ -65,11 +65,9 @@ public class SignUpServlet extends HttpServlet {
      * Forwarding signup JSP form
      *
      * @param request see {@link HttpServletRequest}
-     *
      * @param response see {@link HttpServletResponse}
      *
      * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
-     *
      * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
      */
     @Override
@@ -84,11 +82,9 @@ public class SignUpServlet extends HttpServlet {
      * Handle and process request for user registration
      *
      * @param request see {@link HttpServletRequest}
-     *
      * @param response see {@link HttpServletResponse}
      *
      * @throws ServletException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
-     *
      * @throws IOException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
      */
     @Override
