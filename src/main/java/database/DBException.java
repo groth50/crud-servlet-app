@@ -4,7 +4,7 @@ package database;
  * Defines a exception a {@link DBService}
  * can throw if the query for database fails
  *
- * @autor  Alex
+ * @autor Alex
  */
 public class DBException extends Exception {
 
@@ -52,7 +52,6 @@ public class DBException extends Exception {
      *
      * @param message a String containing the text
      *                of the exception message
-     *
      * @param rootCause	the Throwable exception	that
      *                  interfered with the DBService's
      *				    normal operation, making this
