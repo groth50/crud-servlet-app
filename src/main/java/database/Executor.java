@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
  * mechanics of how each queries will be run, including details of open and close
  * resources, way to database connect, etc.
  *
- * @autor  Alex
+ * @autor Alex
  */
 public class Executor {
 
@@ -38,7 +38,6 @@ public class Executor {
      * If transaction fail, call rollback.
      *
      * @param callable - ExecuteCallable represents query
-     *
      * @param <T> - this type return {@link ExecuteCallable#execute(EntityManager)}.
      *              Should return int i = 0 in this case and client just ignore this
      */
@@ -69,7 +68,6 @@ public class Executor {
      * data query. Don't use transactions.
      *
      * @param callable - ExecuteCallable represents query
-     *
      * @param <T> - this type return {@link ExecuteCallable#execute(EntityManager)}.
      *
      * @return T - query result
