@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * Servlet which to provide forwarding user info JSP form by GET request.
  *
- * @autor  Alex
+ * @autor Alex
  */
 @WebServlet(name = "GetUserInfoServlet", urlPatterns = "/userinfo")
 public class GetUserInfoServlet extends HttpServlet {
@@ -63,11 +63,9 @@ public class GetUserInfoServlet extends HttpServlet {
      * Forwarding user info JSP form
      *
      * @param request see {@link HttpServletRequest}
-     *
      * @param response see {@link HttpServletResponse}
      *
      * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
-     *
      * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
      */
     @Override
