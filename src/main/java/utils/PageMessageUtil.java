@@ -1,6 +1,7 @@
 package utils;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -45,14 +46,15 @@ public class PageMessageUtil {
 
     /**
      * Displays a error message on the JSP
-     * with status code 503
+     * with status code 503 - SC_SERVICE_UNAVAILABLE
      *
-     * @param request
-     * @param response
-     * @param path
-     * @param message
-     * @throws ServletException
-     * @throws IOException
+     * @param request see {@link HttpServletRequest}
+     * @param response  see {@link HttpServletResponse}
+     * @param path JSP filename to which forwards
+     * @param message error message
+     *
+     * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
+     * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
      */
     public static void printServiceUnavailableErrorMessage(HttpServletRequest request, HttpServletResponse response,
                                          String path, String message) throws ServletException, IOException {
@@ -62,6 +64,18 @@ public class PageMessageUtil {
         request.getRequestDispatcher(path).forward(request, response);
     }
 
+    /**
+     * Displays a error message on the JSP
+     * with status code 400 - SC_BAD_REQUEST
+     *
+     * @param request see {@link HttpServletRequest}
+     * @param response  see {@link HttpServletResponse}
+     * @param path JSP filename to which forwards
+     * @param message error message
+     *
+     * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
+     * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
+     */
     public static void printBadRequestErrorMessage(HttpServletRequest request, HttpServletResponse response, String path, String message) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         request.setAttribute("errorMessage", message);
