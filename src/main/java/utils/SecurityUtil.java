@@ -16,7 +16,6 @@ public class SecurityUtil {
      * True if allowed, false if denied
      *
      * @param servletPath servlet path from URI
-     *
      * @param role user role {@link UserAccount.Role}
      *
      * @return true if allowed, false if denied
