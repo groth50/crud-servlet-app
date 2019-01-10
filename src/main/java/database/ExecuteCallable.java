@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
  * argument {@link EntityManager} called {@code execute}.
  *
  * @param <T> type of return result
+ *
+ * @autor  Alex
  */
 @FunctionalInterface
 public interface ExecuteCallable<T> {
