@@ -14,9 +14,9 @@ import java.io.IOException;
 public class PageMessageUtil {
 
     /**
-     * Move message from session scope in request scope.
-     * Need to clear message when redirecting,
-     * usually use in doGet.
+     * Move message from session scope in request scope,
+     * need to clear message when redirecting,
+     * usually use in doGet
      *
      * @param request see {@link HttpServletRequest}
      */
@@ -32,8 +32,8 @@ public class PageMessageUtil {
     }
 
     /**
-     * Move message from session scope in request scope.
-     * Usually use in doPost.
+     * Move message from session scope in request scope
+     * Usually use in doPost
      *
      * @param request see {@link HttpServletRequest}
      */
