@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  * Servlet which to provide forwarding update user JSP form by GET request,
  * handle and process update user query from POST request.
  *
- * @autor  Alex
+ * @autor Alex
  */
 @WebServlet(name = "UpdateUser", urlPatterns = "/updateuser")
 public class UpdateUserServlet extends HttpServlet {
@@ -65,11 +65,9 @@ public class UpdateUserServlet extends HttpServlet {
      * Forwarding update user JSP form and set form fields
      *
      * @param request see {@link HttpServletRequest}
-     *
      * @param response see {@link HttpServletResponse}
      *
      * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
-     *
      * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
      */
     @Override
@@ -117,11 +115,9 @@ public class UpdateUserServlet extends HttpServlet {
      * Handle and process update user query
      *
      * @param request see {@link HttpServletRequest}
-     *
      * @param response see {@link HttpServletResponse}
      *
      * @throws ServletException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
-     *
      * @throws IOException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
      */
     @Override
