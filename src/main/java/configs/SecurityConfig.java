@@ -55,7 +55,7 @@ public class SecurityConfig {
     /**
      * Return {@link Set} of all roles
      *
-     * @return set of all roles
+     * @return Set of all roles
      */
     public static Set<UserAccount.Role> getAllAppRoles() {
         return mapConfig.keySet();
