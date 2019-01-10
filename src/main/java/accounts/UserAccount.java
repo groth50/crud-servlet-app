@@ -153,6 +153,11 @@ public class UserAccount implements Serializable {
 
     /**
      * Represents user role in application
+     * with different access
+     *
+     * USER - can login and see other users
+     * ADMIN - user access and can create, update,
+     *         delete another {@link UserAccount}
      */
     public enum Role {
         USER, ADMIN
