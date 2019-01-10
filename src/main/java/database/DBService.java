@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
  * Provide initialization and configuration application
  * for working with a database and exception handling.
  *
- * @autor  Alex
+ * @autor Alex
  */
 public class DBService {
 
@@ -113,10 +113,8 @@ public class DBService {
      *
      * @param login {@link UserAccount#login}
      *              is user login in application
-     *
      * @param password {@link UserAccount#password}
      *                 is user password in application
-     *
      * @param role {@link UserAccount#role}
      *             is user role in application
      *
@@ -171,7 +169,7 @@ public class DBService {
      *
      * @return The factory that creates EntityManagers
      *         configured according to the
-     *         DBService#PERSISTENCE_UNIT_NAME constant.
+     *         PERSISTENCE_UNIT_NAME constant.
      */
     private static EntityManagerFactory createEntityManagerFactory() {
         return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
