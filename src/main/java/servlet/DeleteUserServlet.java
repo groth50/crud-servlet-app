@@ -17,7 +17,7 @@ import utils.PageMessageUtil;
  * Servlet which to provide handle and process
  * delete user query from POST request.
  *
- * @autor  Alex
+ * @autor Alex
  */
 @WebServlet(name = "DeleteUser", urlPatterns = "/deleteuser")
 public class DeleteUserServlet extends HttpServlet {
@@ -58,11 +58,9 @@ public class DeleteUserServlet extends HttpServlet {
      * Handle and process delete user query
      *
      * @param request see {@link HttpServletRequest}
-     *
      * @param response see {@link HttpServletResponse}
      *
      * @throws ServletException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
-     *
      * @throws IOException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
      */
     @Override
