@@ -7,7 +7,7 @@ import java.util.Collection;
  * Interface for managing user accounts
  * and their sessions in application.
  *
- * @autor  Alex
+ * @autor Alex
  */
 public interface AccountService {
 
@@ -52,7 +52,6 @@ public interface AccountService {
      *
      * @param login {@link UserAccount#login}
      *              is user login in application
-     *
      * @param password {@link UserAccount#password}
      *                 is user password in application
      *
@@ -65,10 +64,8 @@ public interface AccountService {
      *
      * @param login {@link UserAccount#login}
      *              is user login in application
-     *
      * @param password {@link UserAccount#password}
      *                 is user password in application
-     *
      * @param role {@link UserAccount#role}
      *             is user role in application
      *
@@ -110,7 +107,6 @@ public interface AccountService {
      *
      * @param sessionId http session is <code>String</code>
      *                  {@link javax.servlet.http.HttpSession#toString()}
-     *
      * @param userAccount {@link UserAccount}
      */
     void addSession(String sessionId, UserAccount userAccount);
