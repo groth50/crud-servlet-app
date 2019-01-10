@@ -70,7 +70,7 @@ public class Executor {
      * @param callable - ExecuteCallable represents query
      * @param <T> - this type return {@link ExecuteCallable#execute(EntityManager)}.
      *
-     * @return T - query result
+     * @return <T> - query result
      */
     public <T> T doQuery(ExecuteCallable<T> callable) {
         T result = null;
