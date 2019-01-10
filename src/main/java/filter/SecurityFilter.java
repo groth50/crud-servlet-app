@@ -19,8 +19,8 @@ import org.apache.logging.log4j.Logger;
  * and authorization - access rights
  * for requestor and permit or denied access.
  *
- * @autor  Alex
  * @see    Filter
+ * @autor  Alex
  */
 @WebFilter(filterName = "Security", urlPatterns = {"/signup", "/signin", "/mainmenu", "/adminmenu", "/adduser", "/deleteuser", "/updateuser", "/userinfo"})
 public class SecurityFilter implements Filter {

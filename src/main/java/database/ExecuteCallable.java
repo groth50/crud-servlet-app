@@ -18,7 +18,7 @@ public interface ExecuteCallable<T> {
      *
      * @param entityManager {@link EntityManager} use for query
      *
-     * @return T type of result query
+     * @return <T> type of result query
      */
     T execute(EntityManager entityManager);
 }
