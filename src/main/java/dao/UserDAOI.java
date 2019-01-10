@@ -14,6 +14,8 @@ import javax.persistence.criteria.Root;
  * Class that provides data access for users table.
  * Is normally used lambdas from Java 1.8 for callback
  * with {@link Executor} and {@link ExecuteCallable}
+ *
+ * @autor Alex
  */
 public class UserDAOI implements UserDAO {
 
@@ -68,7 +70,6 @@ public class UserDAOI implements UserDAO {
     }
 
     /**
-     *
      * Returns a {@link Collection} contains all
      * {@link UserAccount} entities from database
      *

@@ -41,7 +41,6 @@ public interface UserDAO {
      *
      * @param login {@link UserAccount#login}
      *              is user login in application
-     *
      * @param password {@link UserAccount#password}
      *                 is user password in application
      *
