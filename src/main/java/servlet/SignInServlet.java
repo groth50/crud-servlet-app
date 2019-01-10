@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  * Servlet which to provide forwarding signin JSP form by GET request,
  * and user login from POST request.
  *
- * @autor  Alex
+ * @autor Alex
  */
 @WebServlet(name = "SignIn", urlPatterns = "/signin")
 public class SignInServlet extends HttpServlet {
@@ -65,11 +65,9 @@ public class SignInServlet extends HttpServlet {
      * Forwarding signin JSP form
      *
      * @param request see {@link HttpServletRequest}
-     *
      * @param response see {@link HttpServletResponse}
      *
      * @throws ServletException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
-     *
      * @throws IOException see {@link HttpServlet#doGet(HttpServletRequest, HttpServletResponse)}
      */
     @Override
@@ -85,11 +83,9 @@ public class SignInServlet extends HttpServlet {
      * Handle and process request for user login
      *
      * @param request see {@link HttpServletRequest}
-     *
      * @param response see {@link HttpServletResponse}
      *
      * @throws ServletException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
-     *
      * @throws IOException see {@link HttpServlet#doPost(HttpServletRequest, HttpServletResponse)}
      */
     @Override
